@@ -12,10 +12,12 @@ namespace SmallCrm.Model.Options
         /// 
         /// </summary>
         public string CreationDateTime;
+
         /// <summary>
         /// 
         /// </summary>
         public string VatNumber;
+
         /// <summary>
         /// 
         /// </summary>
