@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace SmallCrm.Model.Options
 {
-    class AddCustomerOptions
+    public class UpdateOrderOptions
     {
         /// <summary>
         /// 
         /// </summary>
-        public string VatNumber { get; set; }
+        public string DeliveryAddress { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Email { get; set; }
+        public string OrderId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Id { get; set; }
+        public List<Product> ProductList = new List<Product>();
+
+
     }
 }

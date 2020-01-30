@@ -3,12 +3,10 @@ using SmallCrm.Model.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmallCrm.Services
 {
-    class CustomerService :ICustomerService
+    class CustomerService : ICustomerService
     {
         private List<Customer> CustomerList = new List<Customer>();
 
@@ -20,14 +18,20 @@ namespace SmallCrm.Services
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
-                string.IsNullOrWhiteSpace(options.VatNumber))
+                string.IsNullOrWhiteSpace(options.VatNumber)||
+                string.IsNullOrWhiteSpace(options.Id))
+            {
+                return false;
+            }
+
+            if (GetCustomerById(options.Id) != null)
             {
                 return false;
             }
 
             Customer customer = new Customer
             {
-                Id = (CustomerList.Count + 1).ToString(),
+                Id = options.Id,
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,
@@ -98,6 +102,9 @@ namespace SmallCrm.Services
             {
                 ReturnList = ReturnList.FindAll(s => s.CreationDateTime.Contains(options.CreationDateTime));
             }
+
+            ReturnList = ReturnList.FindAll(s => s.Active == true);
+
             return ReturnList; 
         }
 
@@ -108,6 +115,11 @@ namespace SmallCrm.Services
                 return null;
             }
             return CustomerList.SingleOrDefault(s => s.Id.Equals(id));
+        }
+
+        public List<Customer> GetCustomerList()
+        {
+            return CustomerList;
         }
 
     }
