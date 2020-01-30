@@ -12,6 +12,7 @@ namespace SmallCrm.Model.Options
         /// 
         /// </summary>
         public string VatNumber { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
