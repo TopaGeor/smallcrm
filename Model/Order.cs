@@ -1,9 +1,5 @@
 ﻿using SmallCrm.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmallCrm
 {
@@ -27,6 +23,11 @@ namespace SmallCrm
         /// <summary>
         /// 
         /// </summary>
+        public bool SendByEmail { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public decimal? TotalAmount { get; set; }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace SmallCrm
         /// <summary>
         /// 
         /// </summary>
-        public bool Executed { get; set; }
+        public OrderCategory Status { get; set; }
 
         /// <summary>
         /// 

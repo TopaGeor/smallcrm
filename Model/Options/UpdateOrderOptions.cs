@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SmallCrm.Model.Options
 {
@@ -21,8 +17,11 @@ namespace SmallCrm.Model.Options
         /// <summary>
         /// 
         /// </summary>
+        public bool Cancel { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public List<Product> ProductList = new List<Product>();
-
-
     }
 }
