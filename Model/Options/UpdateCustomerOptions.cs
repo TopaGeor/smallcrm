@@ -2,6 +2,9 @@
 {
     class UpdateCustomerOptions
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Id { get; set; }
 
         /// <summary>

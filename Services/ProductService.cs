@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using SmallCrm.Model;
+﻿using SmallCrm.Model;
 using SmallCrm.Model.Options;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SmallCrm.Services
@@ -21,24 +20,37 @@ namespace SmallCrm.Services
         public bool AddProduct(AddProductOptions options)
         {
             var check = GetProductById(options.Id);
-            
+
             if (check != null)
+            {
                 return false;
+            }
 
             if (options == null)
-                return false; 
-            else if (string.IsNullOrWhiteSpace(options.Name))
-                return false; 
-            else if (options.Price <= 0)
-                return false; 
-            else if (options.Category == Model.ProductCategory.Invalid)
-                return false; 
+            {
+                return false;
+            }
+            
+            if (string.IsNullOrWhiteSpace(options.Name))
+            {
+                return false;
+            }
+            if (options.Price <= 0)
+            {
+                return false;
+            }
+            if (options.Category == Model.ProductCategory.Invalid)
+            {
+                return false;
+            }
 
-            var product = new Product();//options;
-            product.Id = options.Id;
-            product.Name = options.Name;
-            product.Price = options.Price;
-            product.Type = options.Category;
+            var product = new Product
+            {
+            Id = options.Id,
+            Name = options.Name,
+            Price = options.Price,
+            Type = options.Category
+            };
 
             ProductList.Add(product);
             return true;
@@ -54,16 +66,24 @@ namespace SmallCrm.Services
         {
             var product = GetProductById(productId);
             if (product == null)
+            {
                 return false;
+            }
 
             if (options == null)
+            {
                 return false;
+            }
 
             if (!string.IsNullOrWhiteSpace(options.Description))
+            {
                 product.Description = options.Description;
+            }
 
             if (!string.IsNullOrWhiteSpace(options.Name))
+            {
                 product.Name = options.Name;
+            }
 
             if (options.Price != null)
             {
@@ -103,7 +123,9 @@ namespace SmallCrm.Services
         public Product GetProductById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
+            {
                 return null;
+            }
 
             return ProductList.SingleOrDefault(s => s.Id.Equals(id));
         }
