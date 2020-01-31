@@ -22,12 +22,12 @@ namespace SmallCrm.Services
             if (string.IsNullOrWhiteSpace(options.OrderId)||
                 string.IsNullOrWhiteSpace(options.OwnerId))
             {
-                return false;
+                return null;
             }
 
             if (options.ProductList.Count < 1)
             {
-                return false;
+                return null;
             }
 
             /*
@@ -35,7 +35,7 @@ namespace SmallCrm.Services
              */
             if (OrderList.Any(s => s.OrderId.Equals(options.OrderId)))
             {
-                return false;
+                return null;
             }
 
             /*
@@ -45,12 +45,12 @@ namespace SmallCrm.Services
             {
                 if (!options.CustomerList.SingleOrDefault(s => s.Id.Equals(options.OrderId)).Active)
                 {
-                    return false;
+                    return null;
                 }
             }
             catch
             {
-                return false;
+                return null;
             }
 
             /*
@@ -58,7 +58,7 @@ namespace SmallCrm.Services
              */
             if (options.ProductList.Except(options.AvailableProductList).Any())
             {
-                return false;
+                return null;
             }
 
             Order order = new Order
@@ -98,8 +98,6 @@ namespace SmallCrm.Services
                 order.Status = OrderCategory.Cancel;
                 return true;
             }
-
-
             return true;
         }
         
@@ -117,7 +115,8 @@ namespace SmallCrm.Services
 
             try
             {
-                return OrderList.SingleOrDefault(s => s.OrderId.Equals(id));
+                return OrderList.SingleOrDefault(
+                    s => s.OrderId.Equals(id));
             }
             catch
             {

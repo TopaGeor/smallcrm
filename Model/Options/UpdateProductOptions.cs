@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Model.Options
 {
     public class UpdateProductOptions
     {

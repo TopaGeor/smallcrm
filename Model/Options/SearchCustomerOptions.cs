@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Model.Options
 {
     class SearchCustomerOptions
     {
         /// <summary>
         /// 
         /// </summary>
-        public string CreationDateTime;
+        public string FromDate;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ToDate;
 
         /// <summary>
         /// 
