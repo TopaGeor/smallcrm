@@ -8,6 +8,9 @@ namespace SmallCrm.Services
 {
     class CustomerService : ICustomerService
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private List<Customer> CustomerList = new List<Customer>();
 
         /// <summary>
@@ -23,7 +26,7 @@ namespace SmallCrm.Services
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
-                string.IsNullOrWhiteSpace(options.VatNumber)||
+                string.IsNullOrWhiteSpace(options.VatNumber) ||
                 string.IsNullOrWhiteSpace(options.Id))
             {
                 return false;
@@ -40,7 +43,7 @@ namespace SmallCrm.Services
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,
-                CreationDateTime = DateTime.UtcNow.ToString("yyyy_mm_dd hh:mm:ss")
+                CreationDateTime = DateTime.UtcNow.ToString("yyyy MM dd")
             };
 
             CustomerList.Add(customer);
@@ -81,7 +84,7 @@ namespace SmallCrm.Services
                 customer.Firstname = options.Firstname;
             }
 
-            if(!string.IsNullOrWhiteSpace(options.VatNumber))
+            if (!string.IsNullOrWhiteSpace(options.VatNumber))
             {
                 customer.VatNumber = options.VatNumber;
             }
@@ -105,17 +108,23 @@ namespace SmallCrm.Services
             
             if (!string.IsNullOrWhiteSpace(options.Email))
             {
-                ReturnList = ReturnList.FindAll(s => s.Email.Contains(options.Email));
+                ReturnList = ReturnList.FindAll(
+                    s => s.Email.Contains(options.Email));
             }
 
             if (!string.IsNullOrWhiteSpace(options.VatNumber))
             {
-                ReturnList = ReturnList.FindAll(s => s.VatNumber.Contains(options.VatNumber));
+                ReturnList = ReturnList.FindAll(
+                    s => s.VatNumber.Contains(options.VatNumber));
             }
 
-            if (!string.IsNullOrWhiteSpace(options.CreationDateTime))
+            if (!string.IsNullOrWhiteSpace(options.FromDate) ||
+                !string.IsNullOrWhiteSpace(options.ToDate))
             {
-                ReturnList = ReturnList.FindAll(s => s.CreationDateTime.Contains(options.CreationDateTime));
+                ReturnList = ReturnList.FindAll(s =>
+                s.CreationDateTime.CompareTo(options.FromDate) >= 0 &&
+                s.CreationDateTime.CompareTo(options.ToDate) < 0
+                );
             }
 
             ReturnList = ReturnList.FindAll(s => s.Active == true);
@@ -145,6 +154,5 @@ namespace SmallCrm.Services
         {
             return CustomerList;
         }
-
     }
 }
