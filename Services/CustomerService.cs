@@ -10,6 +10,11 @@ namespace SmallCrm.Services
     {
         private List<Customer> CustomerList = new List<Customer>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public bool AddCustomer(AddCustomerOptions options)
         {
             if (options == null)
@@ -42,6 +47,11 @@ namespace SmallCrm.Services
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public bool UpdateCustomer(UpdateCustomerOptions options)
         {
             var customer = GetCustomerById(options.Id);
@@ -84,6 +94,11 @@ namespace SmallCrm.Services
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public List<Customer> SearchCustomer(SearchCustomerOptions options)
         {
             List<Customer> ReturnList = CustomerList;
@@ -108,6 +123,11 @@ namespace SmallCrm.Services
             return ReturnList; 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Customer GetCustomerById(string id)
         {
             if(string.IsNullOrWhiteSpace(id))
@@ -117,6 +137,10 @@ namespace SmallCrm.Services
             return CustomerList.SingleOrDefault(s => s.Id.Equals(id));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<Customer> GetCustomerList()
         {
             return CustomerList;

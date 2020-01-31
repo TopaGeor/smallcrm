@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SmallCrm.Model.Options
 {
@@ -17,6 +13,11 @@ namespace SmallCrm.Model.Options
         /// 
         /// </summary>
         public string OrderId;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<Product> AvailableProductList = new List<Product>();
 
         /// <summary>
         /// 

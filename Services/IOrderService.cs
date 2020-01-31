@@ -1,9 +1,4 @@
 ﻿using SmallCrm.Model.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmallCrm.Services
 {
@@ -17,7 +12,7 @@ namespace SmallCrm.Services
          * and wants to create a new one.
          * GetOrderById: a function that will return an order's details.
         */
-        bool CreateOrder(CreateOrderOptions options);
+        Order CreateOrder(CreateOrderOptions options);
 
         bool UpdateOrder(UpdateOrderOptions options);
 

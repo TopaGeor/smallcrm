@@ -8,7 +8,11 @@ namespace SmallCrm.Services
 {
     public class ProductService : IProductService
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private List<Product> ProductList = new List<Product>();
+        
         /// <summary>
         /// 
         /// </summary>
@@ -39,6 +43,7 @@ namespace SmallCrm.Services
             ProductList.Add(product);
             return true;
         }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -89,6 +94,7 @@ namespace SmallCrm.Services
             }
             return true;
         }
+
         /// <summary>
         /// 
         /// </summary>

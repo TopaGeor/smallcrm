@@ -60,6 +60,7 @@
     <Compile Include="Model\Options\UpdateCustomerOptions.cs" />
     <Compile Include="Model\Options\UpdateOrderOptions.cs" />
     <Compile Include="Model\Options\UpdateProductOptions.cs" />
+    <Compile Include="Model\OrderCategory.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\ProductCategory.cs" />
     <Compile Include="Model\Order.cs" />

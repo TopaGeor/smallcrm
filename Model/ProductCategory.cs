@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SmallCrm.Model
+﻿namespace SmallCrm.Model
 {
     public enum ProductCategory
     {
