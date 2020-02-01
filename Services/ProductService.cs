@@ -8,12 +8,12 @@ namespace SmallCrm.Services
     public class ProductService : IProductService
     {
         /// <summary>
-        /// 
+        ///  A list with products
         /// </summary>
         private List<Product> ProductList = new List<Product>();
-        
+
         /// <summary>
-        /// 
+        /// Creates a product according to options and adds it to the ProductList
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -57,7 +57,7 @@ namespace SmallCrm.Services
         }
         
         /// <summary>
-        /// 
+        /// Find the product with id productId and updates it with the options
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="options"></param>
@@ -116,7 +116,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Return the product that has an id equals to id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

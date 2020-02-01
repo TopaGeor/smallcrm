@@ -9,12 +9,12 @@ namespace SmallCrm.Services
     class CustomerService : ICustomerService
     {
         /// <summary>
-        /// 
+        /// A list with customers
         /// </summary>
         private List<Customer> CustomerList = new List<Customer>();
 
         /// <summary>
-        /// 
+        /// Creates a customer and adds him at the customer list
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Update a Customer according the options
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -98,7 +98,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Search for a customer according the options
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -133,7 +133,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Return the Customer with id id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -147,7 +147,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Return the Customer List
         /// </summary>
         /// <returns></returns>
         public List<Customer> GetCustomerList()

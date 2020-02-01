@@ -8,12 +8,12 @@ namespace SmallCrm.Services
     public class OrderService : IOrderService
     {
         /// <summary>
-        /// 
+        /// A list with orders
         /// </summary>
         private List<Order> OrderList = new List<Order>();
 
         /// <summary>
-        /// 
+        /// Create an order and add it to the OrderList
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace SmallCrm.Services
         }
 
         /// <summary>
-        /// 
+        /// Update an Order with options
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -102,7 +102,7 @@ namespace SmallCrm.Services
         }
         
         /// <summary>
-        /// 
+        /// Return an Order with Id id 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
