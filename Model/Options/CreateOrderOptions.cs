@@ -5,27 +5,27 @@ namespace SmallCrm.Model.Options
     public class CreateOrderOptions
     {
         /// <summary>
-        /// 
+        /// The id of the owner
         /// </summary>
         public string OwnerId;
 
         /// <summary>
-        /// 
+        /// The id of the order
         /// </summary>
         public string OrderId;
 
         /// <summary>
-        /// 
+        /// A list with all availabe products
         /// </summary>
         public List<Product> AvailableProductList = new List<Product>();
 
         /// <summary>
-        /// 
+        /// A list products inside the order
         /// </summary>
         public List<Product> ProductList = new List<Product>();
 
         /// <summary>
-        /// 
+        /// A list with all customers
         /// </summary>
         public List<Customer> CustomerList = new List<Customer>();
     }
