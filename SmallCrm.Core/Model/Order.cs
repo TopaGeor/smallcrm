@@ -1,7 +1,7 @@
-﻿using SmallCrm.Model;
+﻿using SmallCrm.Core.Model;
 using System.Collections.Generic;
 
-namespace SmallCrm
+namespace SmallCrm.Core
 {
     public class Order
     {

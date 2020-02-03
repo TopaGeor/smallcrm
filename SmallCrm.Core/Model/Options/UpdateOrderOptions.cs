@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SmallCrm.Model.Options
+namespace SmallCrm.Core.Model.Options
 {
     public class UpdateOrderOptions
     {

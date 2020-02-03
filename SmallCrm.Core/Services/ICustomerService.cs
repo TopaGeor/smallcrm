@@ -1,8 +1,8 @@
-﻿using SmallCrm.Model;
-using SmallCrm.Model.Options;
+﻿using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
 
-namespace SmallCrm.Services
+namespace SmallCrm.Core.Services
 {
     interface ICustomerService
     {

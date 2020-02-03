@@ -1,6 +1,6 @@
-﻿namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
-    class AddCustomerOptions
+    public class AddCustomerOptions
     {
         /// <summary>
         /// The Vat number of the Customer
