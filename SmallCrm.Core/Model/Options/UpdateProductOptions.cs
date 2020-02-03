@@ -1,4 +1,4 @@
-﻿namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
     public class UpdateProductOptions
     {

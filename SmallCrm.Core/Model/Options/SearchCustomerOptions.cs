@@ -1,6 +1,6 @@
-﻿namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
-    class SearchCustomerOptions
+    public class SearchCustomerOptions
     {
         /// <summary>
         /// From what date we should search

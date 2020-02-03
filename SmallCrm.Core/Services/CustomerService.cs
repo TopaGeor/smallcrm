@@ -1,12 +1,12 @@
-﻿using SmallCrm.Model;
-using SmallCrm.Model.Options;
+﻿using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SmallCrm.Services
+namespace SmallCrm.Core.Services
 {
-    class CustomerService : ICustomerService
+    public class CustomerService : ICustomerService
     {
         /// <summary>
         /// A list with customers
@@ -26,20 +26,14 @@ namespace SmallCrm.Services
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
-                string.IsNullOrWhiteSpace(options.VatNumber) ||
-                string.IsNullOrWhiteSpace(options.Id))
-            {
-                return false;
-            }
-
-            if (GetCustomerById(options.Id) != null)
+                string.IsNullOrWhiteSpace(options.VatNumber))
             {
                 return false;
             }
 
             Customer customer = new Customer
             {
-                Id = options.Id,
+                Id = CustomerList.Count.ToString(),
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,

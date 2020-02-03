@@ -1,6 +1,6 @@
-﻿namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
-    class AddCustomerOptions
+    public class AddCustomerOptions
     {
         /// <summary>
         /// The Vat number of the Customer
@@ -11,10 +11,5 @@
         /// The email of the Customer
         /// </summary>
         public string Email { get; set; }
-
-        /// <summary>
-        /// The id of the Customer
-        /// </summary>
-        public string Id { get; set; }
     }
 }

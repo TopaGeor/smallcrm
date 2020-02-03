@@ -1,6 +1,6 @@
-﻿namespace SmallCrm.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
-    class UpdateCustomerOptions
+    public class UpdateCustomerOptions
     {
         /// <summary>
         /// What customer we want to update

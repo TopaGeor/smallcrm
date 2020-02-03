@@ -1,7 +1,7 @@
-﻿using SmallCrm.Model;
-using SmallCrm.Model.Options;
+﻿using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 
-namespace SmallCrm.Services
+namespace SmallCrm.Core.Services
 {
     interface IProductService
     {

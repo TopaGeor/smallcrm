@@ -1,9 +1,9 @@
-﻿using SmallCrm.Model;
-using SmallCrm.Model.Options;
+﻿using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SmallCrm.Services
+namespace SmallCrm.Core.Services
 {
     public class ProductService : IProductService
     {
@@ -35,10 +35,12 @@ namespace SmallCrm.Services
             {
                 return false;
             }
+
             if (options.Price <= 0)
             {
                 return false;
             }
+
             if (options.Category == Model.ProductCategory.Invalid)
             {
                 return false;

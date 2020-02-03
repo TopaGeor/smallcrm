@@ -1,4 +1,4 @@
-﻿namespace SmallCrm.Model
+﻿namespace SmallCrm.Core.Model
 {
     public enum ProductCategory
     {
