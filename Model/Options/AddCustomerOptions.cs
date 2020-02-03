@@ -11,10 +11,5 @@
         /// The email of the Customer
         /// </summary>
         public string Email { get; set; }
-
-        /// <summary>
-        /// The id of the Customer
-        /// </summary>
-        public string Id { get; set; }
     }
 }
