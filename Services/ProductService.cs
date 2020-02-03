@@ -35,10 +35,12 @@ namespace SmallCrm.Services
             {
                 return false;
             }
+
             if (options.Price <= 0)
             {
                 return false;
             }
+
             if (options.Category == Model.ProductCategory.Invalid)
             {
                 return false;
