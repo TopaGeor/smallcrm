@@ -30,5 +30,7 @@ namespace SmallCrm.Core.Services
         /// <param name="options"></param>
         /// <returns></returns>
         List<Customer> SearchCustomer(SearchCustomerOptions options);
+
+        ICollection<Customer> SearchCustomers(SearchCustomerOptions options);
     }
 }

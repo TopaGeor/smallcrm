@@ -7,7 +7,7 @@ namespace SmallCrm.Core.Model
         /// <summary>
         /// Custoemr id
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Customer phone
@@ -44,6 +44,11 @@ namespace SmallCrm.Core.Model
         /// </summary>
         public string CreationDate { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTimeOffset Created { get; set; }
+
+        public Customer()
+        {
+            Created = DateTimeOffset.Now;
+        }
     }
 }

@@ -33,7 +33,6 @@ namespace SmallCrm.Core.Services
 
             Customer customer = new Customer
             {
-                Id = CustomerList.Count.ToString(),
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,

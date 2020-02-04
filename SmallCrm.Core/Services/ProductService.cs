@@ -1,5 +1,7 @@
-﻿using SmallCrm.Core.Model;
+﻿using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,9 +10,15 @@ namespace SmallCrm.Core.Services
     public class ProductService : IProductService
     {
         /// <summary>
-        ///  A list with products
+        /// Variable that conect as all, with the database
         /// </summary>
-        private List<Product> ProductList = new List<Product>();
+        private readonly SmallCrmDbContext context_;
+
+        public ProductService(SmallCrmDbContext context)
+        {
+            context_ = context ?? 
+                throw new ArgumentNullException(nameof(context));
+        }
 
         /// <summary>
         /// Creates a product according to options and adds it to the ProductList
@@ -48,14 +56,25 @@ namespace SmallCrm.Core.Services
 
             var product = new Product
             {
-            Id = options.Id,
-            Name = options.Name,
-            Price = options.Price,
-            Type = options.Category
+                Id = options.Id,
+                Name = options.Name,
+                Price = options.Price,
+                Type = options.Category
             };
 
-            ProductList.Add(product);
-            return true;
+            var success = false;
+
+            context_.Add(product);
+            try
+            {
+                success = context_.SaveChanges() > 0;
+            }
+            catch (Exception e)
+            {
+
+            }
+            //ProductList.Add(product);
+            return success;
         }
         
         /// <summary>
@@ -129,7 +148,21 @@ namespace SmallCrm.Core.Services
                 return null;
             }
 
-            return ProductList.SingleOrDefault(s => s.Id.Equals(id));
+            return context_.
+                Set<Product>().
+                SingleOrDefault(s => s.Id == id);
+        }
+
+        public Product SearchProduct(SearchProductOptions options)
+        {
+            if (options == null)
+            {
+                return null;
+            }
+
+
+
+            return null;
         }
     }
 }

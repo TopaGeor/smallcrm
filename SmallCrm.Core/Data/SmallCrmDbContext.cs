@@ -28,6 +28,10 @@ namespace SmallCrm.Core.Data
             modelBuilder.
                 Entity<Product>().
                 ToTable("Product");
+
+            modelBuilder.
+                Entity<Customer>().
+                ToTable("Customer");
         }
     }
 }

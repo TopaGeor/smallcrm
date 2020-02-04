@@ -21,5 +21,10 @@
         /// What email we are looking for
         /// </summary>
         public string Email;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Id;
     }
 }

@@ -26,5 +26,7 @@ namespace SmallCrm.Core.Services
         /// <param name="id"></param>
         /// <returns></returns>
         Product GetProductById(string id);
+
+        Product SearchProduct(SearchProductOptions options);
     }
 }
