@@ -37,7 +37,7 @@ namespace SmallCrm.Core.Services
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,
-                CreationDateTime = DateTime.UtcNow.ToString("yyyy MM dd")
+                CreationDate = DateTime.UtcNow.ToString("yyyy MM dd")
             };
 
             CustomerList.Add(customer);
@@ -116,8 +116,8 @@ namespace SmallCrm.Core.Services
                 !string.IsNullOrWhiteSpace(options.ToDate))
             {
                 ReturnList = ReturnList.FindAll(s =>
-                s.CreationDateTime.CompareTo(options.FromDate) >= 0 &&
-                s.CreationDateTime.CompareTo(options.ToDate) < 0
+                s.CreationDate.CompareTo(options.FromDate) >= 0 &&
+                s.CreationDate.CompareTo(options.ToDate) < 0
                 );
             }
 

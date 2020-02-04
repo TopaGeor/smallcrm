@@ -1,4 +1,6 @@
-﻿namespace SmallCrm.Core.Model
+﻿using System;
+
+namespace SmallCrm.Core.Model
 {
     public class Customer
     {
@@ -40,6 +42,8 @@
         /// <summary>
         /// When the customer have being created
         /// </summary>
-        public string CreationDateTime { get; set; }
+        public string CreationDate { get; set; }
+
+        public DateTime Created { get; set; }
     }
 }
