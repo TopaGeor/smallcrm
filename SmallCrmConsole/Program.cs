@@ -12,7 +12,6 @@ namespace SmallCrmConsole
         static void Main(string[] args)
         {
             var customer = new Customer();
-            var lal = new AddCustomerOptions();
 
             using (var context = new SmallCrmDbContext())
             {

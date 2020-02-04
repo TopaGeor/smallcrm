@@ -73,7 +73,6 @@ namespace SmallCrm.Core.Services
             {
 
             }
-            //ProductList.Add(product);
             return success;
         }
         
@@ -148,21 +147,88 @@ namespace SmallCrm.Core.Services
                 return null;
             }
 
-            return context_.
-                Set<Product>().
-                SingleOrDefault(s => s.Id == id);
+            SearchProductOptions options = new SearchProductOptions()
+            {
+                Id = id
+            };
+
+            List<Product> product = SearchProduct(options);
+
+            if (product.Count > 0)
+            {
+                return null;
+            }
+            else
+            {
+                return product[0];
+            }
         }
 
-        public Product SearchProduct(SearchProductOptions options)
+        public List<Product> SearchProduct(SearchProductOptions options)
         {
+            List<Product> returnList = new List<Product>();
             if (options == null)
             {
                 return null;
             }
 
+            if (!string.IsNullOrWhiteSpace(options.Id))
+            {
+                var temp = context_.
+                    Set<Product>().
+                    SingleOrDefault(s => s.Id == options.Id);
 
+                if (temp != default(Product))
+                {
+                    returnList.Add(temp);
+                    return returnList;
+                }
+            }
 
-            return null;
+            if (!string.IsNullOrWhiteSpace(options.Description))
+            {
+                returnList.AddRange(context_.
+                    Set<Product>().
+                    Where(p => p.Description.
+                    Contains(options.Description)).
+                    ToList());
+            }
+            
+            if (options.Discount > 0 && options.Discount < 100)
+            {
+                returnList.AddRange(context_.
+                    Set<Product>().
+                    Where(p => p.Discount == options.Discount).
+                    ToList());
+            }
+            
+            if (!string.IsNullOrWhiteSpace(options.Name))
+            {
+                returnList.AddRange(context_.
+                    Set<Product>().
+                    Where(s => s.Name == options.Name).
+                    ToList());
+            }
+            
+            if (options.Price > 0)
+            {
+                returnList.AddRange(context_.
+                    Set<Product>().
+                    Where(p => p.Price == options.Price).
+                    ToList());
+            }
+
+            if (options.Type != ProductCategory.Invalid)
+            {
+                returnList.AddRange(context_.
+                    Set<Product>().
+                    Where(p => p.Type == options.Type).
+                    ToList());
+            }
+
+            returnList = returnList.Distinct().ToList();
+
+            return returnList;
         }
     }
 }

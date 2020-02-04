@@ -1,5 +1,6 @@
 ﻿using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
+using System.Collections.Generic;
 
 namespace SmallCrm.Core.Services
 {
@@ -27,6 +28,6 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         Product GetProductById(string id);
 
-        Product SearchProduct(SearchProductOptions options);
+        List<Product> SearchProduct(SearchProductOptions options);
     }
 }
