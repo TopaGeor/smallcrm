@@ -2,7 +2,7 @@
 
 namespace SmallCrm.Core.Services
 {
-    interface IOrderService
+    public interface IOrderService
     {
         /// <summary>
         /// a function that will create and add a new order to the system, given at least a CustomerId, and a list of Products. 

@@ -6,14 +6,9 @@ namespace SmallCrm.Core
     public class Order
     {
         /// <summary>
-        /// The id of the customer how made the order
-        /// </summary>
-        public string OwnerId { get; set; }
-
-        /// <summary>
         /// The order id
         /// </summary>
-        public string OrderId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The delivery address of the order
@@ -33,17 +28,19 @@ namespace SmallCrm.Core
         /// <summary>
         /// A list of the products of the order
         /// </summary>
-        public List<Product> ProductList = new List<Product>();
+        //public List<Product> ProductList = new List<Product>();
 
         /// <summary>
         /// The status of the order
         /// </summary>
         public OrderCategory Status { get; set; }
 
+        public Customer customer { get; set; }
+
         /// <summary>
         /// Calculate the cost of the order
         /// </summary>
-        public void CalculateAmmount()
+        /*public void CalculateAmmount()
         {
             decimal? d = 0;
             foreach (Product p in ProductList)
@@ -51,6 +48,6 @@ namespace SmallCrm.Core
                 d = d + p.Price;
             }
             TotalAmount = d;
-        }
+        }*/
     }
 }

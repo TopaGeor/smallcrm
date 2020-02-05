@@ -138,14 +138,5 @@ namespace SmallCrm.Core.Services
             }
             return CustomerList.SingleOrDefault(s => s.Id.Equals(id));
         }
-
-        /// <summary>
-        /// Return the Customer List
-        /// </summary>
-        /// <returns></returns>
-        public List<Customer> GetCustomerList()
-        {
-            return CustomerList;
-        }
     }
 }

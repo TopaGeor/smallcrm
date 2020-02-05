@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallCrm.Core", "SmallCrm.Core\SmallCrm.Core.csproj", "{AD37FAD4-B904-41D6-82B5-681FE555160F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmallCrm.Core", "SmallCrm.Core\SmallCrm.Core.csproj", "{AD37FAD4-B904-41D6-82B5-681FE555160F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallCrmConsole", "SmallCrmConsole\SmallCrmConsole.csproj", "{083DDD53-6441-40F8-B7D9-CB57368B0771}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmallCrmConsole", "SmallCrmConsole\SmallCrmConsole.csproj", "{083DDD53-6441-40F8-B7D9-CB57368B0771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallCrmTest", "SmallCrmTest\SmallCrmTest.csproj", "{9EB6270E-B9F4-4618-84B9-6F6D17231666}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{083DDD53-6441-40F8-B7D9-CB57368B0771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{083DDD53-6441-40F8-B7D9-CB57368B0771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{083DDD53-6441-40F8-B7D9-CB57368B0771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB6270E-B9F4-4618-84B9-6F6D17231666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB6270E-B9F4-4618-84B9-6F6D17231666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB6270E-B9F4-4618-84B9-6F6D17231666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB6270E-B9F4-4618-84B9-6F6D17231666}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

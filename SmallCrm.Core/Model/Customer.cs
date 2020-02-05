@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SmallCrm.Core.Model
 {
@@ -40,15 +41,34 @@ namespace SmallCrm.Core.Model
         public bool Active { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public ICollection<ContactPerson> Contacts { get; set; }
+
+        /// <summary>
         /// When the customer have being created
         /// </summary>
         public string CreationDate { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTimeOffset Created { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICollection<Order> Orders {get; set;}
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Customer()
         {
             Created = DateTimeOffset.Now;
+            Orders = new List<Order>();
+            Contacts = new List<ContactPerson>();
         }
+
     }
 }

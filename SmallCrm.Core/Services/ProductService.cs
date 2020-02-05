@@ -3,12 +3,14 @@ using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SmallCrm.Core.Services
 {
     public class ProductService : IProductService
     {
+
         /// <summary>
         /// Variable that conect as all, with the database
         /// </summary>
@@ -85,6 +87,7 @@ namespace SmallCrm.Core.Services
         public bool UpdateProduct(string productId, UpdateProductOptions options)
         {
             var product = GetProductById(productId);
+
             if (product == null)
             {
                 return false;
@@ -119,7 +122,7 @@ namespace SmallCrm.Core.Services
 
             if (options.Discount != null)
             {
-                if (options.Discount < 0 && options.Discount >= 100)
+                if (options.Discount > 0M && options.Discount <= 100M)
                 {
                    product.Discount = options.Discount;
                 }
@@ -154,7 +157,7 @@ namespace SmallCrm.Core.Services
 
             List<Product> product = SearchProduct(options);
 
-            if (product.Count > 0)
+            if (product.Count < 1)
             {
                 return null;
             }
@@ -229,6 +232,36 @@ namespace SmallCrm.Core.Services
             returnList = returnList.Distinct().ToList();
 
             return returnList;
+        }
+
+        public bool PopulateDb()
+        {
+            var rand = new Random();
+            var p = 0M;
+            var category = 0;
+            var filename = "products.csv";
+            foreach (var line in File.ReadAllLines(filename))
+            {
+                p = rand.Next(1, 100);
+                p += (decimal)rand.NextDouble();
+                p = decimal.Truncate(p * 100) / 100;
+
+                category = rand.Next(1, 6);
+                var splitedline = line.Split(';');
+                Product newproduct = new Product()
+                {
+                    Id = splitedline[0],
+                    Description = splitedline[1],
+                    Price = p,
+                    Type = (ProductCategory)category
+                };
+
+                context_.Add(newproduct);
+                context_.SaveChanges();
+            }
+
+            
+            return true;
         }
     }
 }

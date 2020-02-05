@@ -1,10 +1,11 @@
-﻿using SmallCrm.Core.Model;
+﻿using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
 
 namespace SmallCrm.Core.Services
 {
-    interface IProductService
+    public interface IProductService
     {
         /// <summary>
         /// Add a new product
@@ -28,6 +29,17 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         Product GetProductById(string id);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        bool PopulateDb();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
         List<Product> SearchProduct(SearchProductOptions options);
     }
 }

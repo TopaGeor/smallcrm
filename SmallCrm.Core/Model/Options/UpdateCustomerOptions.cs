@@ -35,6 +35,6 @@
         /// <summary>
         /// If we want to change the customer status
         /// </summary>
-        public bool ChangeActive { get; set; }/////edw exeis aporia
+        public bool ChangeActive { get; set; }
     }
 }

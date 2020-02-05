@@ -10,7 +10,7 @@ using SmallCrm.Core.Data;
 namespace SmallCrm.Core.Migrations
 {
     [DbContext(typeof(SmallCrmDbContext))]
-    [Migration("20200204103535_initial")]
+    [Migration("20200205131017_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,38 @@ namespace SmallCrm.Core.Migrations
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SmallCrm.Core.Model.ContactPerson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("customerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("customerId");
+
+                    b.ToTable("ContactPerson");
+                });
 
             modelBuilder.Entity("SmallCrm.Core.Model.Customer", b =>
                 {
@@ -31,8 +63,8 @@ namespace SmallCrm.Core.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreationDate")
                         .HasColumnType("nvarchar(max)");
@@ -80,6 +112,49 @@ namespace SmallCrm.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("SmallCrm.Core.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DeliveryAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SendByEmail")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("customerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("customerId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("SmallCrm.Core.Model.ContactPerson", b =>
+                {
+                    b.HasOne("SmallCrm.Core.Model.Customer", "customer")
+                        .WithMany("ContactPerson")
+                        .HasForeignKey("customerId");
+                });
+
+            modelBuilder.Entity("SmallCrm.Core.Order", b =>
+                {
+                    b.HasOne("SmallCrm.Core.Model.Customer", "customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("customerId");
                 });
 #pragma warning restore 612, 618
         }

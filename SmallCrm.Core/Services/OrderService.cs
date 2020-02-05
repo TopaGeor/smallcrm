@@ -19,8 +19,7 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         public Order CreateOrder(CreateOrderOptions options)
         {
-            if (string.IsNullOrWhiteSpace(options.OrderId)||
-                string.IsNullOrWhiteSpace(options.OwnerId))
+            if (options.Id <= 0)
             {
                 return null;
             }
@@ -33,7 +32,7 @@ namespace SmallCrm.Core.Services
             /*
              * Check if id is unique
              */
-            if (OrderList.Any(s => s.OrderId.Equals(options.OrderId)))
+            if (OrderList.Any(s => s.Id.Equals(options.Id)))
             {
                 return null;
             }
@@ -43,7 +42,7 @@ namespace SmallCrm.Core.Services
              */
             try
             {
-                if (!options.CustomerList.SingleOrDefault(s => s.Id.Equals(options.OrderId)).Active)
+                if (!options.CustomerList.SingleOrDefault(s => s.Id.Equals(options.Id)).Active)
                 {
                     return null;
                 }
@@ -63,13 +62,13 @@ namespace SmallCrm.Core.Services
 
             Order order = new Order
             {
-                OrderId = options.OrderId,
-                OwnerId = options.OwnerId,
-                ProductList = options.ProductList,
+                Id = options.Id,
+                //CustomerId = options.OwnerId,
+                //ProductList = options.ProductList,
                 Status = OrderCategory.Pending
             };
 
-            order.CalculateAmmount();
+            //order.CalculateAmmount();
             OrderList.Add(order);
             return order;
         }
@@ -116,7 +115,7 @@ namespace SmallCrm.Core.Services
             try
             {
                 return OrderList.SingleOrDefault(
-                    s => s.OrderId.Equals(id));
+                    s => s.Id.Equals(id));
             }
             catch
             {

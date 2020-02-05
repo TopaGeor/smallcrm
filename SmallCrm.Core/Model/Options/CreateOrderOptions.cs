@@ -7,12 +7,12 @@ namespace SmallCrm.Core.Model.Options
         /// <summary>
         /// The id of the owner
         /// </summary>
-        public string OwnerId;
+        //public string OwnerId;
 
         /// <summary>
         /// The id of the order
         /// </summary>
-        public string OrderId;
+        public int Id;
 
         /// <summary>
         /// A list with all availabe products

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SmallCrm.Core.Services
 {
-    interface ICustomerService
+    public interface ICustomerService
     {
         /// <summary>
         ///  A function that will add a new customer to a temporary, in-memory db (a list will do) and will ensure that for all new 
@@ -30,7 +30,5 @@ namespace SmallCrm.Core.Services
         /// <param name="options"></param>
         /// <returns></returns>
         List<Customer> SearchCustomer(SearchCustomerOptions options);
-
-        ICollection<Customer> SearchCustomers(SearchCustomerOptions options);
     }
 }

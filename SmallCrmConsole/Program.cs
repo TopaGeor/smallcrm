@@ -11,31 +11,11 @@ namespace SmallCrmConsole
     {
         static void Main(string[] args)
         {
-            var customer = new Customer();
+            var ps = new ProductService(new SmallCrmDbContext());
 
-            using (var context = new SmallCrmDbContext())
-            {
-                var productservice = new ProductService(context);
-                productservice.AddProduct(
-                    new AddProductOptions()
-                    {
-                        Id = "1",
-                        Name = "a name",
-                        Price = 30,
-                        Category = ProductCategory.Computers
-                    });
-            }
+            ps.PopulateDb();
 
 
-
-
-            //context.Add(c);
-            //context.SaveChanges();
-            //context.Database.EnsureCreated();
-            //Repository patern
-            //Unit of work patern
-
-            Console.WriteLine("Hello World!");
         }
     }
 }
@@ -72,4 +52,28 @@ namespace SmallCrmConsole
                 context.SaveChanges();
             }
                         Console.WriteLine(context.Database.CanConnect());
-    */
+                var customer = new Customer();
+
+            using (var context = new SmallCrmDbContext())
+            {
+                var productservice = new ProductService(context);
+
+                productservice.AddProduct(
+                    new AddProductOptions()
+                    {
+                        Id = "1",
+                        Name = "a name",
+                        Price = 30,
+                        Category = ProductCategory.Computers
+                    })
+                productservice.GetProductById("3445");
+
+
+                //context.Add(c);
+            //context.SaveChanges();
+            //context.Database.EnsureCreated();
+            //Repository patern
+            //Unit of work patern
+
+            Console.WriteLine("Hello World!");
+            };*/
