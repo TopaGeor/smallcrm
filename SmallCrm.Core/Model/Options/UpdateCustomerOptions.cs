@@ -5,7 +5,7 @@
         /// <summary>
         /// What customer we want to update
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Update the phone

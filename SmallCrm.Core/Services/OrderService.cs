@@ -1,12 +1,22 @@
-﻿using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 
 namespace SmallCrm.Core.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly SmallCrmDbContext context_;
+
+        public OrderService(SmallCrmDbContext context)
+        {
+            context_ = context ??
+                throw new ArgumentNullException(nameof(context));
+        }
+
         /// <summary>
         /// A list with orders
         /// </summary>
@@ -17,7 +27,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public Order CreateOrder(CreateOrderOptions options)
+        public Order CreateOrder(AddOrderOptions options)
         {
             if (options.Id <= 0)
             {

@@ -11,7 +11,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        Order CreateOrder(CreateOrderOptions options);
+        Order CreateOrder(AddOrderOptions options);
 
         /// <summary>
         /// a function that will update a not-executed order, and will allow sales-people to cancel it, if the customer changed his mind 

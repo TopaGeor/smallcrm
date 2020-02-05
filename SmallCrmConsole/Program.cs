@@ -9,7 +9,7 @@ namespace SmallCrmConsole
         {
             var ps = new ProductService(new SmallCrmDbContext());
 
-            ps.PopulateDb();
+            //ps.PopulateDb();
 
 
         }

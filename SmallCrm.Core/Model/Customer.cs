@@ -46,11 +46,6 @@ namespace SmallCrm.Core.Model
         public ICollection<ContactPerson> Contacts { get; set; }
 
         /// <summary>
-        /// When the customer have being created
-        /// </summary>
-        public string CreationDate { get; set; }
-
-        /// <summary>
         /// 
         /// </summary>
         public DateTimeOffset Created { get; set; }

@@ -1,4 +1,5 @@
-﻿using SmallCrm.Core.Model;
+﻿using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,13 @@ namespace SmallCrm.Core.Services
 {
     public class CustomerService : ICustomerService
     {
-        /// <summary>
-        /// A list with customers
-        /// </summary>
-        private List<Customer> CustomerList = new List<Customer>();
+        private readonly SmallCrmDbContext context_;
+
+        public CustomerService(SmallCrmDbContext context)
+        {
+            context_ = context ??
+                throw new ArgumentNullException(nameof(context));
+        }
 
         /// <summary>
         /// Creates a customer and adds him at the customer list
@@ -36,11 +40,20 @@ namespace SmallCrm.Core.Services
                 VatNumber = options.VatNumber,
                 Email = options.Email,
                 Active = true,
-                CreationDate = DateTime.UtcNow.ToString("yyyy MM dd")
+                Created = DateTime.UtcNow
             };
 
-            CustomerList.Add(customer);
-            return true;
+            try
+            {
+                context_.Add(customer);
+                context_.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         /// <summary>
@@ -97,32 +110,65 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         public List<Customer> SearchCustomer(SearchCustomerOptions options)
         {
-            List<Customer> ReturnList = CustomerList;
-            
+            if (options == null)
+            {
+                return null;
+            }
+
+            List<Customer> returnList = new List<Customer>();
+
+            if (options.Id > 0)
+            {
+                var temp = context_
+                    .Set<Customer>()
+                    .FirstOrDefault(c => c.Id == options.Id);
+
+                if (temp != default(Customer))
+                {
+                    returnList.Add(temp);
+                    return returnList;
+                }
+            }
+
             if (!string.IsNullOrWhiteSpace(options.Email))
             {
-                ReturnList = ReturnList.FindAll(
-                    s => s.Email.Contains(options.Email));
+                returnList
+                    .AddRange
+                    (context_
+                    .Set<Customer>()
+                    .Where(c => c.Email
+                    .Contains(options.Email))
+                    .ToList());
             }
 
             if (!string.IsNullOrWhiteSpace(options.VatNumber))
             {
-                ReturnList = ReturnList.FindAll(
-                    s => s.VatNumber.Contains(options.VatNumber));
+                returnList
+                    .AddRange
+                    (context_
+                    .Set<Customer>()
+                    .Where(c => c.VatNumber
+                    .Contains(options.VatNumber))
+                    .ToList());
             }
 
-            if (!string.IsNullOrWhiteSpace(options.FromDate) ||
-                !string.IsNullOrWhiteSpace(options.ToDate))
+            if (options.FromDate != default(DateTimeOffset) &&
+                options.ToDate != default(DateTimeOffset))
             {
-                ReturnList = ReturnList.FindAll(s =>
-                s.CreationDate.CompareTo(options.FromDate) >= 0 &&
-                s.CreationDate.CompareTo(options.ToDate) < 0
-                );
+                returnList
+                    .AddRange
+                    (context_
+                    .Set<Customer>()
+                    .Where(c =>
+                    c.Created.CompareTo(options.FromDate) >= 0
+                    && c.Created.CompareTo(options.ToDate) >= 0)
+                    .ToList()); 
             }
 
-            ReturnList = ReturnList.FindAll(s => s.Active == true);
+            returnList = returnList.Distinct().ToList();
+            returnList = returnList.FindAll(s => s.Active == true);
 
-            return ReturnList; 
+            return returnList; 
         }
 
         /// <summary>
@@ -130,13 +176,26 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Customer GetCustomerById(string id)
+        public Customer GetCustomerById(int id)
         {
-            if(string.IsNullOrWhiteSpace(id))
+            if(id < 1)
             {
                 return null;
             }
-            return CustomerList.SingleOrDefault(s => s.Id.Equals(id));
+            var options = new SearchCustomerOptions()
+            {
+                Id = id
+            };
+
+            List<Customer> localList = SearchCustomer(options);
+            if(localList.Count < 1)
+            {
+                return null;
+            }
+            else
+            {
+                return localList[0];
+            }
         }
     }
 }

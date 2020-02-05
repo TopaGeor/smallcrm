@@ -15,8 +15,7 @@ namespace SmallCrmTest
 
         public CustomerServiceTest()
         {
-            csvc_ = new CustomerService();
-            context = new SmallCrmDbContext();
+            csvc_ = new CustomerService(new SmallCrmDbContext());
         }
 
         [Fact]

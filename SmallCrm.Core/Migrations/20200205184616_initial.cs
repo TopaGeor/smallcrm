@@ -36,7 +36,7 @@ namespace SmallCrm.Core.Migrations
                     Price = table.Column<decimal>(nullable: true),
                     Discount = table.Column<decimal>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false)
+                    Category = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +53,7 @@ namespace SmallCrm.Core.Migrations
                     Lastname = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
-                    Position = table.Column<string>(nullable: true),
+                    Position = table.Column<int>(nullable: false),
                     customerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

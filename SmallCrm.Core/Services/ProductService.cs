@@ -177,9 +177,9 @@ namespace SmallCrm.Core.Services
 
             if (!string.IsNullOrWhiteSpace(options.Id))
             {
-                var temp = context_.
-                    Set<Product>().
-                    SingleOrDefault(s => s.Id == options.Id);
+                var temp = context_
+                    .Set<Product>()
+                    .SingleOrDefault(p => p.Id == options.Id);
 
                 if (temp != default(Product))
                 {
@@ -190,43 +190,45 @@ namespace SmallCrm.Core.Services
 
             if (!string.IsNullOrWhiteSpace(options.Description))
             {
-                returnList.AddRange(context_.
-                    Set<Product>().
-                    Where(p => p.Description.
-                    Contains(options.Description)).
-                    ToList());
+                returnList
+                    .AddRange(
+                    context_
+                    .Set<Product>()
+                    .Where(p => p.Description
+                    .Contains(options.Description))
+                    .ToList());
             }
             
             if (options.Discount > 0 && options.Discount < 100)
             {
-                returnList.AddRange(context_.
-                    Set<Product>().
-                    Where(p => p.Discount == options.Discount).
-                    ToList());
+                returnList.AddRange(context_
+                    .Set<Product>()
+                    .Where(p => p.Discount == options.Discount)
+                    .ToList());
             }
             
             if (!string.IsNullOrWhiteSpace(options.Name))
             {
-                returnList.AddRange(context_.
-                    Set<Product>().
-                    Where(s => s.Name == options.Name).
-                    ToList());
+                returnList.AddRange(context_
+                    .Set<Product>()
+                    .Where(s => s.Name == options.Name)
+                    .ToList());
             }
             
             if (options.Price > 0)
             {
-                returnList.AddRange(context_.
-                    Set<Product>().
-                    Where(p => p.Price == options.Price).
-                    ToList());
+                returnList.AddRange(context_
+                    .Set<Product>()
+                    .Where(p => p.Price == options.Price)
+                    .ToList());
             }
 
             if (options.Category != ProductCategory.Invalid)
             {
-                returnList.AddRange(context_.
-                    Set<Product>().
-                    Where(p => p.Category == options.Category).
-                    ToList());
+                returnList.AddRange(context_
+                    .Set<Product>()
+                    .Where(p => p.Category == options.Category)
+                    .ToList());
             }
 
             returnList = returnList.Distinct().ToList();
@@ -256,11 +258,10 @@ namespace SmallCrm.Core.Services
                     Category = (ProductCategory)category
                 };
 
-                context_.Add(newproduct);
-                context_.SaveChanges();
+                context_.Add(newproduct);  
             }
+            context_.SaveChanges();
 
-            
             return true;
         }
     }

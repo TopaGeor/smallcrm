@@ -2,13 +2,8 @@
 
 namespace SmallCrm.Core.Model.Options
 {
-    public class CreateOrderOptions
+    public class AddOrderOptions
     {
-        /// <summary>
-        /// The id of the owner
-        /// </summary>
-        //public string OwnerId;
-
         /// <summary>
         /// The id of the order
         /// </summary>
