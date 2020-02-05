@@ -101,7 +101,7 @@ namespace SmallCrm.Core.Services
 
             if (options.Discount != null)
             {
-                if (options.Discount < 0 && options.Discount >= 100)
+                if (options.Discount > 0M && options.Discount <= 100M)
                 {
                    product.Discount = options.Discount;
                 }
