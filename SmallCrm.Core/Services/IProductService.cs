@@ -1,5 +1,4 @@
-﻿using SmallCrm.Core.Data;
-using SmallCrm.Core.Model;
+﻿using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
 

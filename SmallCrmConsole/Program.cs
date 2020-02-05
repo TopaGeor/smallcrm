@@ -1,9 +1,5 @@
 ﻿using SmallCrm.Core.Data;
-using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
-using System;
-using System.Linq;
 
 namespace SmallCrmConsole
 {

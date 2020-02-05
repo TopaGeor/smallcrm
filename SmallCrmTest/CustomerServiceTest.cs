@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace SmallCrmTest

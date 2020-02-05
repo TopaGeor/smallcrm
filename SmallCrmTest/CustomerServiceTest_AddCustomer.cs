@@ -1,9 +1,4 @@
-﻿using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
-using SmallCrm.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SmallCrm.Core.Model.Options;
 using Xunit;
 
 namespace SmallCrmTest

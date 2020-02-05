@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SmallCrm.Core.Model.Options
+﻿namespace SmallCrm.Core.Model.Options
 {
     public class SearchProductOptions
     {

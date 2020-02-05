@@ -1,5 +1,4 @@
 ﻿using SmallCrm.Core.Model;
-using System.Collections.Generic;
 
 namespace SmallCrm.Core
 {
