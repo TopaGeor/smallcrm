@@ -30,6 +30,6 @@
         /// <summary>
         /// The type of the product
         /// </summary>
-        public ProductCategory Type { get; set; }
+        public ProductCategory Category { get; set; }
     }
 }

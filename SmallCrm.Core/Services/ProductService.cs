@@ -61,7 +61,7 @@ namespace SmallCrm.Core.Services
                 Id = options.Id,
                 Name = options.Name,
                 Price = options.Price,
-                Type = options.Category
+                Category = options.Category
             };
 
             var success = false;
@@ -221,11 +221,11 @@ namespace SmallCrm.Core.Services
                     ToList());
             }
 
-            if (options.Type != ProductCategory.Invalid)
+            if (options.Category != ProductCategory.Invalid)
             {
                 returnList.AddRange(context_.
                     Set<Product>().
-                    Where(p => p.Type == options.Type).
+                    Where(p => p.Category == options.Category).
                     ToList());
             }
 
@@ -253,7 +253,7 @@ namespace SmallCrm.Core.Services
                     Id = splitedline[0],
                     Description = splitedline[1],
                     Price = p,
-                    Type = (ProductCategory)category
+                    Category = (ProductCategory)category
                 };
 
                 context_.Add(newproduct);

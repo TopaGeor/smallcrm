@@ -106,7 +106,7 @@ namespace SmallCrm.Core.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

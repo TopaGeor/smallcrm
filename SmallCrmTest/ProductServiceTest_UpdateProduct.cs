@@ -26,8 +26,8 @@ namespace SmallCrmTest
             /*
             var newproduct = psvc_.GetProductById(oldproduct.Id);
 
-            Assert.Equal(updateproduct.Category, newproduct.Type);
-            Assert.Equal(oldproduct.Type, newproduct.Type);
+            Assert.Equal(updateproduct.Category, newproduct.Category);
+            Assert.Equal(oldproduct.Category, newproduct.Category);
             Assert.Equal(oldproduct.Price, newproduct.Price);
             Assert.Equal(oldproduct.Name, newproduct.Name);
             */

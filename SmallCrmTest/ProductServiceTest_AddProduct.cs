@@ -26,7 +26,7 @@ namespace SmallCrmTest
             Assert.NotNull(p);
             Assert.Equal(product.Name, p.Name);
             Assert.Equal(product.Price, p.Price);
-            Assert.Equal(product.Category, p.Type);
+            Assert.Equal(product.Category, p.Category);
         }
 
         [Fact]

@@ -26,7 +26,7 @@ namespace SmallCrmConsole
             var p = new Product()
             {
                 Id = "3451",
-                Type = ProductCategory.Computers,
+                Category = ProductCategory.Computers,
                 Price = 99.99M,
                 Discount = 0
             };
