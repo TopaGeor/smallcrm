@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmallCrm.Core.Data;
 
 namespace SmallCrm.Core.Migrations
 {
     [DbContext(typeof(SmallCrmDbContext))]
-    partial class SmallCrmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200206074013_add-OrderProduct-repair")]
+    partial class addOrderProductrepair
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,14 +79,9 @@ namespace SmallCrm.Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VatNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(9)")
-                        .HasMaxLength(9);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VatNumber")
-                        .IsUnique();
 
                     b.ToTable("Customer");
                 });

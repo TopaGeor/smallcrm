@@ -10,78 +10,18 @@ namespace SmallCrm.Core.Services
     public class OrderService : IOrderService
     {
         private readonly SmallCrmDbContext context_;
+        private readonly ICustomerService customers_;
 
-        public OrderService(SmallCrmDbContext context)
+        public OrderService(ICustomerService customers, SmallCrmDbContext context)
         {
-            context_ = context ??
-                throw new ArgumentNullException(nameof(context));
+            context_ = context;
+            customers_ = customers;
         }
 
         /// <summary>
         /// A list with orders
         /// </summary>
         private List<Order> OrderList = new List<Order>();
-
-        /// <summary>
-        /// Create an order and add it to the OrderList
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public Order CreateOrder(AddOrderOptions options)
-        {
-            if (options.Id <= 0)
-            {
-                return null;
-            }
-
-            if (options.ProductList.Count < 1)
-            {
-                return null;
-            }
-
-            /*
-             * Check if id is unique
-             */
-            if (OrderList.Any(s => s.Id.Equals(options.Id)))
-            {
-                return null;
-            }
-
-            /*
-             * Check if a customer is active and exist
-             */
-            try
-            {
-                if (!options.CustomerList.SingleOrDefault(s => s.Id.Equals(options.Id)).Active)
-                {
-                    return null;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-
-            /*
-             * Check if all products exist
-             */
-            if (options.ProductList.Except(options.AvailableProductList).Any())
-            {
-                return null;
-            }
-
-            Order order = new Order
-            {
-                Id = options.Id,
-                //CustomerId = options.OwnerId,
-                //ProductList = options.ProductList,
-                Status = OrderCategory.Pending
-            };
-
-            //order.CalculateAmmount();
-            OrderList.Add(order);
-            return order;
-        }
 
         /// <summary>
         /// Update an Order with options
@@ -96,17 +36,17 @@ namespace SmallCrm.Core.Services
             {
                 return false;
             }
-
+            /*
             if (order.Status != OrderCategory.Pending)
             {
                 return false;
             }
-
+            
             if(options.Cancel == true)
             {
                 order.Status = OrderCategory.Cancel;
                 return true;
-            }
+            }*/
             return true;
         }
         
@@ -131,6 +71,69 @@ namespace SmallCrm.Core.Services
             {
                 return null;
             }
+        }
+
+        public Order CreateOrder(int customerId, ICollection<string> productIds)
+        {
+            if( customerId <= 0)
+            {
+                return null;
+            }
+
+            if (productIds == null)
+            {
+                return null;
+            }
+
+            var customer = customers_.SearchCustomer(
+                new SearchCustomerOptions()
+                {
+                    Id = customerId
+                })
+                .Where(c => c.Active)
+                .SingleOrDefault();
+
+            if (customer == null ||
+                productIds.Count == 0)
+            {
+                return null;
+            }
+
+            var products = context_
+                .Set<Product>()
+                .Where(p => productIds.Contains(p.Id))
+                .ToList();
+
+            if (products.Count != productIds.Count)
+            {
+                return null;
+            }
+
+            var order = new Order()
+            {
+                Customer = customer
+            };
+
+            foreach(var p in products)
+            {
+                order.Products.Add(
+                new OrderProduct()
+                {
+                    ProductId = p.Id
+                }
+                );
+            }
+
+            context_.Add(order);
+            try
+            {
+                context_.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return order;
         }
     }
 }

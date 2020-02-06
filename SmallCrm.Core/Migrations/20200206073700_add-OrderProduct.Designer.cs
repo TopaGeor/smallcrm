@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmallCrm.Core.Data;
 
 namespace SmallCrm.Core.Migrations
 {
     [DbContext(typeof(SmallCrmDbContext))]
-    partial class SmallCrmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200206073700_add-OrderProduct")]
+    partial class addOrderProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,14 +79,9 @@ namespace SmallCrm.Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VatNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(9)")
-                        .HasMaxLength(9);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VatNumber")
-                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -121,10 +118,15 @@ namespace SmallCrm.Core.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Product");
                 });
@@ -159,7 +161,7 @@ namespace SmallCrm.Core.Migrations
             modelBuilder.Entity("SmallCrm.Core.Model.OrderProduct", b =>
                 {
                     b.HasOne("SmallCrm.Core.Order", "Order")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -169,6 +171,13 @@ namespace SmallCrm.Core.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SmallCrm.Core.Model.Product", b =>
+                {
+                    b.HasOne("SmallCrm.Core.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("SmallCrm.Core.Order", b =>

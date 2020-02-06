@@ -27,6 +27,6 @@ namespace SmallCrm.Core.Model.Options
         /// <summary>
         /// 
         /// </summary>
-        public int Id;
+        public int? Id;
     }
 }

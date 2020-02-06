@@ -1,3 +1,4 @@
+using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using Xunit;
@@ -9,29 +10,26 @@ namespace SmallCrmTest
         [Fact]
         public void UpdateProduct_Success()
         {
-            var oldproduct = psvc_.GetProductById("Test_435");
+            var product = new AddProductOptions()
+            {
+                Name = "product name",
+                Price = 1230M,
+                Category = ProductCategory.Cameras,
+                Id = $"Test{CodeGenerator.CreateRandom()}"
+            };
+
+            Assert.True(psvc_.AddProduct(product));
 
             var updateproduct = new UpdateProductOptions()
             {
-                Category = SmallCrm.Core.Model.ProductCategory.Televisions,
-                Description = $"lalilulelo{DateTime.UtcNow.Millisecond}",
+                Category = ProductCategory.Televisions,
+                Description = $"lalilulelo{CodeGenerator.CreateRandom()}",
                 Discount = 45M,
-                Name = $"New Name {DateTime.UtcNow.Millisecond}",
+                Name = $"New Name {CodeGenerator.CreateRandom()}",
                 Price = 45M
             };
 
-            Assert.True(psvc_.UpdateProduct(oldproduct.Id, updateproduct));
-            /*
-            var newproduct = psvc_.GetProductById(oldproduct.Id);
-
-            Assert.Equal(updateproduct.Category, newproduct.Category);
-            Assert.Equal(oldproduct.Category, newproduct.Category);
-            Assert.Equal(oldproduct.Price, newproduct.Price);
-            Assert.Equal(oldproduct.Name, newproduct.Name);
-            */
-            //Assert.Equal(old);
-            //Assert.Equal
-
+            Assert.True(psvc_.UpdateProduct(product.Id, updateproduct));
         }
     }
 }

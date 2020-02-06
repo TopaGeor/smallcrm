@@ -1,6 +1,6 @@
 ﻿using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace SmallCrm.Core.Services
 {
@@ -14,7 +14,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        bool AddCustomer(AddCustomerOptions options);
+        Customer AddCustomer(AddCustomerOptions options);
 
         /// <summary>
         /// A function that will allow for a Customer's data to be updated selectively.
@@ -29,6 +29,6 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        List<Customer> SearchCustomer(SearchCustomerOptions options);
+        IQueryable<Customer> SearchCustomer(SearchCustomerOptions options);
     }
 }

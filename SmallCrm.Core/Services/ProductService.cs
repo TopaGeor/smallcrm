@@ -29,6 +29,11 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         public bool AddProduct(AddProductOptions options)
         {
+            if (options == null)
+            {
+                return false;
+            }
+
             var check = GetProductById(options.Id);
 
             if (check != null)
@@ -36,11 +41,6 @@ namespace SmallCrm.Core.Services
                 return false;
             }
 
-            if (options == null)
-            {
-                return false;
-            }
-            
             if (string.IsNullOrWhiteSpace(options.Name))
             {
                 return false;
@@ -56,17 +56,16 @@ namespace SmallCrm.Core.Services
                 return false;
             }
 
-            var product = new Product
+            var product = new Product()
             {
                 Id = options.Id,
                 Name = options.Name,
                 Price = options.Price,
                 Category = options.Category
             };
-
-            var success = false;
-
             context_.Add(product);
+            var success = false;
+            
             try
             {
                 success = context_.SaveChanges() > 0;
@@ -86,14 +85,14 @@ namespace SmallCrm.Core.Services
         /// <returns></returns>
         public bool UpdateProduct(string productId, UpdateProductOptions options)
         {
-            var product = GetProductById(productId);
-
-            if (product == null)
+            if (options == null)
             {
                 return false;
             }
 
-            if (options == null)
+            var product = GetProductById(productId);
+
+            if (product == null)
             {
                 return false;
             }

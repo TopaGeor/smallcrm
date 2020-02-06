@@ -1,4 +1,6 @@
 using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
 using System;
 using Xunit;
@@ -8,19 +10,31 @@ namespace SmallCrmTest
     public partial class ProductServiceTest : IDisposable
     {
         private readonly SmallCrmDbContext context;
-        private readonly ProductService psvc_;
+        private readonly ProductService psvc_;        
 
         public ProductServiceTest()
         {
-            psvc_ = new ProductService(new SmallCrmDbContext());
+            context = new SmallCrmDbContext();
+            psvc_ = new ProductService(context);
         }
 
         [Fact]
         public void GetProductById_Success()
         {
-            var product = psvc_.GetProductById("3445");
-            Assert.NotNull(product);
-            Assert.Equal(99.99M, product.Price);
+            var product = new AddProductOptions()
+            {
+                Name = "product name",
+                Price = 1230M,
+                Category = ProductCategory.Cameras,
+                Id = $"Test{CodeGenerator.CreateRandom()}"
+            };
+
+            Assert.True(psvc_.AddProduct(product));
+
+            var retrivalProduct = psvc_.GetProductById(product.Id);
+
+            Assert.NotNull(retrivalProduct);
+            Assert.Equal(product.Price, retrivalProduct.Price);
         }
 
         [Fact]

@@ -33,6 +33,18 @@ namespace SmallCrm.Core.Data
                 Entity<Customer>().
                 ToTable("Customer");
 
+            modelBuilder
+                .Entity<Customer>()
+                .Property(c => c.VatNumber)
+                .HasMaxLength(9)
+                .IsRequired();
+
+            modelBuilder
+                .Entity<Customer>()
+                .HasIndex(c => c.VatNumber)
+                .IsUnique();
+
+
             modelBuilder.
                 Entity<Order>().
                 ToTable("Order");
@@ -40,6 +52,10 @@ namespace SmallCrm.Core.Data
             modelBuilder.
                 Entity<ContactPerson>().
                 ToTable("ContactPerson");
+
+            modelBuilder.
+                Entity<OrderProduct>().
+                HasKey(op => new { op.OrderId, op.ProductId });
         }
     }
 }

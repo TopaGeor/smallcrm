@@ -10,14 +10,14 @@ namespace SmallCrmTest
         {
             var customer = new AddCustomerOptions()
             { 
-                Email = "test@mail.com",
+                Email = $"{CodeGenerator.CreateRandom()}@test.com",
                 FirstName = "Test first name",
                 LastName = "Test last name",
                 Phone = "6969696969",
-                VatNumber = "TestVatNumber"
+                VatNumber = $"{CodeGenerator.CreateRandom()}"
             };
 
-            Assert.True(csvc_.AddCustomer(customer));
+            Assert.NotNull(csvc_.AddCustomer(customer));
         }
     }
 }

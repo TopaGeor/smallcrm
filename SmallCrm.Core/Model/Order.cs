@@ -1,4 +1,5 @@
 ﻿using SmallCrm.Core.Model;
+using System.Collections.Generic;
 
 namespace SmallCrm.Core
 {
@@ -14,39 +15,15 @@ namespace SmallCrm.Core
         /// </summary>
         public string DeliveryAddress { get; set; }
 
-        /// <summary>
-        /// Send by email the receipt
-        /// </summary>
-        public bool SendByEmail { get; set; }
+        public Customer Customer { get; set; }
 
-        /// <summary>
-        /// The total cost of the order
-        /// </summary>
-        public decimal? TotalAmount { get; set; }
+        public ICollection<OrderProduct> Products { get; set; }
 
-        /// <summary>
-        /// A list of the products of the order
-        /// </summary>
-        //public List<Product> ProductList = new List<Product>();
-
-        /// <summary>
-        /// The status of the order
-        /// </summary>
-        public OrderCategory Status { get; set; }
-
-        public Customer customer { get; set; }
-
-        /// <summary>
-        /// Calculate the cost of the order
-        /// </summary>
-        /*public void CalculateAmmount()
+        public Order()
         {
-            decimal? d = 0;
-            foreach (Product p in ProductList)
             {
-                d = d + p.Price;
+                Products = new List<OrderProduct>();
             }
-            TotalAmount = d;
-        }*/
+        }
     }
 }
