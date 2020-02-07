@@ -1,6 +1,6 @@
-﻿namespace SmallCrm.Core.Model
+﻿namespace SmallCrm.Core.Model.Options
 {
-    public class Product
+    public class SearchProductOptions
     {
         /// <summary>
         /// The id of the product

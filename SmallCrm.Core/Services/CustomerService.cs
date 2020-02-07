@@ -1,4 +1,5 @@
-﻿using SmallCrm.Core.Model;
+﻿using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
@@ -8,40 +9,70 @@ namespace SmallCrm.Core.Services
 {
     public class CustomerService : ICustomerService
     {
-        /// <summary>
-        /// A list with customers
-        /// </summary>
-        private List<Customer> CustomerList = new List<Customer>();
+        private readonly SmallCrmDbContext context_;
+
+        public CustomerService(SmallCrmDbContext context)
+        {
+            context_ = context ??
+                throw new ArgumentNullException(nameof(context));
+        }
 
         /// <summary>
         /// Creates a customer and adds him at the customer list
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool AddCustomer(AddCustomerOptions options)
+        public Customer AddCustomer(AddCustomerOptions options)
         {
             if (options == null)
             {
-                return false;
+                return null;
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
                 string.IsNullOrWhiteSpace(options.VatNumber))
             {
-                return false;
+                return null;
+            }
+
+            if (options.VatNumber.Length > 9)
+            {
+                return null;
+            }
+
+            var exists = SearchCustomer(
+                new SearchCustomerOptions()
+                {
+                    VatNumber = options.VatNumber
+                }).Any();
+
+            if (exists)
+            {
+                return null;
             }
 
             Customer customer = new Customer
             {
-                Id = CustomerList.Count.ToString(),
                 VatNumber = options.VatNumber,
                 Email = options.Email,
+                Firstname = options.FirstName,
+                Lastname = options.LastName,
+                Phone = options.Phone,
                 Active = true,
-                CreationDateTime = DateTime.UtcNow.ToString("yyyy MM dd")
+                Created = DateTime.UtcNow
             };
 
-            CustomerList.Add(customer);
-            return true;
+            context_.Add(customer);
+            try
+            {    
+                context_.SaveChanges();
+            }
+            catch
+            {
+                return null;
+            }
+
+            return customer;
         }
 
         /// <summary>
@@ -83,7 +114,7 @@ namespace SmallCrm.Core.Services
                 customer.VatNumber = options.VatNumber;
             }
 
-            if (options.ChangeActive)
+            if (options.ChangeActive != null)
             {
                 customer.Active = !customer.Active;
             }
@@ -96,34 +127,36 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public List<Customer> SearchCustomer(SearchCustomerOptions options)
+        public IQueryable<Customer> SearchCustomer(SearchCustomerOptions options)
         {
-            List<Customer> ReturnList = CustomerList;
-            
+            if (options == null)
+            {
+                return null;
+            }
+
+            var query = context_
+                .Set<Customer>()
+                .AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(options.Email))
             {
-                ReturnList = ReturnList.FindAll(
-                    s => s.Email.Contains(options.Email));
+                query = query.Where(c =>
+                    c.Email == options.Email);
             }
 
             if (!string.IsNullOrWhiteSpace(options.VatNumber))
             {
-                ReturnList = ReturnList.FindAll(
-                    s => s.VatNumber.Contains(options.VatNumber));
+                query = query.Where(c =>
+                    c.VatNumber == options.VatNumber);
             }
 
-            if (!string.IsNullOrWhiteSpace(options.FromDate) ||
-                !string.IsNullOrWhiteSpace(options.ToDate))
+            if (options.Id != null)
             {
-                ReturnList = ReturnList.FindAll(s =>
-                s.CreationDateTime.CompareTo(options.FromDate) >= 0 &&
-                s.CreationDateTime.CompareTo(options.ToDate) < 0
-                );
+                query = query.Where(c => 
+                    c.Id == options.Id);
             }
 
-            ReturnList = ReturnList.FindAll(s => s.Active == true);
-
-            return ReturnList; 
+            return query.Take(500);
         }
 
         /// <summary>
@@ -131,22 +164,20 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Customer GetCustomerById(string id)
+        public Customer GetCustomerById(int? id)
         {
-            if(string.IsNullOrWhiteSpace(id))
+            if(id == null)
             {
                 return null;
             }
-            return CustomerList.SingleOrDefault(s => s.Id.Equals(id));
-        }
 
-        /// <summary>
-        /// Return the Customer List
-        /// </summary>
-        /// <returns></returns>
-        public List<Customer> GetCustomerList()
-        {
-            return CustomerList;
+            var options = new SearchCustomerOptions()
+            {
+                Id = id
+            };
+
+            return SearchCustomer(options)
+                .SingleOrDefault();
         }
     }
 }

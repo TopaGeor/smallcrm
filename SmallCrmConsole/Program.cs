@@ -1,7 +1,5 @@
-﻿using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
+﻿using SmallCrm.Core.Data;
 using SmallCrm.Core.Services;
-using System;
 
 namespace SmallCrmConsole
 {
@@ -9,9 +7,9 @@ namespace SmallCrmConsole
     {
         static void Main(string[] args)
         {
-            var customer = new Customer();
-            var lal = new AddCustomerOptions();
-            Console.WriteLine("Hello World!");
+            var ps = new ProductService(new SmallCrmDbContext());
+
+            //ps.PopulateDb();
         }
     }
 }

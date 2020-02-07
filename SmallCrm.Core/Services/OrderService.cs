@@ -1,78 +1,27 @@
-﻿using SmallCrm.Core.Model;
-using SmallCrm.Core.Model.Options;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+using SmallCrm.Core.Data;
+using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 
 namespace SmallCrm.Core.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly SmallCrmDbContext context_;
+        private readonly ICustomerService customers_;
+
+        public OrderService(ICustomerService customers, SmallCrmDbContext context)
+        {
+            context_ = context;
+            customers_ = customers;
+        }
+
         /// <summary>
         /// A list with orders
         /// </summary>
         private List<Order> OrderList = new List<Order>();
-
-        /// <summary>
-        /// Create an order and add it to the OrderList
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public Order CreateOrder(CreateOrderOptions options)
-        {
-            if (string.IsNullOrWhiteSpace(options.OrderId)||
-                string.IsNullOrWhiteSpace(options.OwnerId))
-            {
-                return null;
-            }
-
-            if (options.ProductList.Count < 1)
-            {
-                return null;
-            }
-
-            /*
-             * Check if id is unique
-             */
-            if (OrderList.Any(s => s.OrderId.Equals(options.OrderId)))
-            {
-                return null;
-            }
-
-            /*
-             * Check if a customer is active and exist
-             */
-            try
-            {
-                if (!options.CustomerList.SingleOrDefault(s => s.Id.Equals(options.OrderId)).Active)
-                {
-                    return null;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-
-            /*
-             * Check if all products exist
-             */
-            if (options.ProductList.Except(options.AvailableProductList).Any())
-            {
-                return null;
-            }
-
-            Order order = new Order
-            {
-                OrderId = options.OrderId,
-                OwnerId = options.OwnerId,
-                ProductList = options.ProductList,
-                Status = OrderCategory.Pending
-            };
-
-            order.CalculateAmmount();
-            OrderList.Add(order);
-            return order;
-        }
 
         /// <summary>
         /// Update an Order with options
@@ -87,17 +36,17 @@ namespace SmallCrm.Core.Services
             {
                 return false;
             }
-
+            /*
             if (order.Status != OrderCategory.Pending)
             {
                 return false;
             }
-
+            
             if(options.Cancel == true)
             {
                 order.Status = OrderCategory.Cancel;
                 return true;
-            }
+            }*/
             return true;
         }
         
@@ -116,12 +65,75 @@ namespace SmallCrm.Core.Services
             try
             {
                 return OrderList.SingleOrDefault(
-                    s => s.OrderId.Equals(id));
+                    s => s.Id.Equals(id));
             }
             catch
             {
                 return null;
             }
+        }
+
+        public Order CreateOrder(int customerId, ICollection<string> productIds)
+        {
+            if( customerId <= 0)
+            {
+                return null;
+            }
+
+            if (productIds == null)
+            {
+                return null;
+            }
+
+            var customer = customers_.SearchCustomer(
+                new SearchCustomerOptions()
+                {
+                    Id = customerId
+                })
+                .Where(c => c.Active)
+                .SingleOrDefault();
+
+            if (customer == null ||
+                productIds.Count == 0)
+            {
+                return null;
+            }
+
+            var products = context_
+                .Set<Product>()
+                .Where(p => productIds.Contains(p.Id))
+                .ToList();
+
+            if (products.Count != productIds.Count)
+            {
+                return null;
+            }
+
+            var order = new Order()
+            {
+                Customer = customer
+            };
+
+            foreach(var p in products)
+            {
+                order.Products.Add(
+                new OrderProduct()
+                {
+                    ProductId = p.Id
+                }
+                );
+            }
+
+            context_.Add(order);
+            try
+            {
+                context_.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return order;
         }
     }
 }

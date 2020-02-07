@@ -1,11 +1,14 @@
-﻿namespace SmallCrm.Core.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace SmallCrm.Core.Model
 {
     public class Customer
     {
         /// <summary>
         /// Custoemr id
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Customer phone
@@ -38,8 +41,29 @@
         public bool Active { get; set; }
 
         /// <summary>
-        /// When the customer have being created
+        /// 
         /// </summary>
-        public string CreationDateTime { get; set; }
+        public ICollection<ContactPerson> Contacts { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTimeOffset Created { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICollection<Order> Orders {get; set;}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Customer()
+        {
+            Created = DateTimeOffset.Now;
+            Orders = new List<Order>();
+            Contacts = new List<ContactPerson>();
+        }
+
     }
 }

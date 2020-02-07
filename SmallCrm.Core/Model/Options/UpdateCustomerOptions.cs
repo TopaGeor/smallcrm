@@ -5,7 +5,7 @@
         /// <summary>
         /// What customer we want to update
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Update the phone
@@ -35,6 +35,6 @@
         /// <summary>
         /// If we want to change the customer status
         /// </summary>
-        public bool ChangeActive { get; set; }/////edw exeis aporia
+        public bool? ChangeActive { get; set; }
     }
 }
