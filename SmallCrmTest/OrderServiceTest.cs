@@ -1,8 +1,10 @@
-﻿using SmallCrm.Core;
+﻿using Autofac;
+using SmallCrm.Core;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +13,19 @@ using Xunit;
 
 namespace SmallCrmTest 
 {
-    public class OrderServiceTest : IDisposable
+    public class OrderServiceTest : IClassFixture<SmallCrmFixture>
     {
         private SmallCrmDbContext context_;
         private ICustomerService customers_;
         private IOrderService orders_;
         private IProductService products_;
 
-        public OrderServiceTest()
+        public OrderServiceTest(SmallCrmFixture fixture)
         {
-            context_ = new SmallCrmDbContext();
-            customers_ = new CustomerService(context_);
-            products_ = new ProductService(context_);
-            orders_ = new OrderService(customers_, context_);
+            context_ = fixture.DbContext;
+            customers_ = fixture.Container.Resolve<ICustomerService>();
+            products_ = fixture.Container.Resolve<IProductService>();
+            orders_ = fixture.Container.Resolve<IOrderService>();
         }
 
         [Fact]
@@ -73,11 +75,6 @@ namespace SmallCrmTest
                 Assert.Contains(dbOrder.Products
                     .Select(prod => prod.ProductId), prod => prod.Equals(p));
             }
-        }
-
-        public void Dispose()
-        {
-            context_.Dispose();
         }
     }
 }

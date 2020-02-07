@@ -18,9 +18,9 @@ namespace SmallCrmTest
                 Category = ProductCategory.Cameras
             };
 
-            Assert.True(psvc_.AddProduct(product));
+            Assert.True(products_.AddProduct(product));
 
-            var p = psvc_.GetProductById(product.Id);
+            var p = products_.GetProductById(product.Id);
             Assert.NotNull(p);
             Assert.Equal(product.Name, p.Name);
             Assert.Equal(product.Price, p.Price);
@@ -37,7 +37,7 @@ namespace SmallCrmTest
                 Price = 40M,
             };
 
-            Assert.False(psvc_.AddProduct(product));
+            Assert.False(products_.AddProduct(product));
         }
     }
 }

@@ -1,3 +1,4 @@
+using Autofac;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
@@ -7,15 +8,19 @@ using Xunit;
 
 namespace SmallCrmTest
 {
-    public partial class ProductServiceTest : IDisposable
+    public partial class ProductServiceTest : IClassFixture<SmallCrmFixture>
     {
-        private readonly SmallCrmDbContext context;
-        private readonly ProductService psvc_;        
+        private SmallCrmDbContext context_;
+        private ICustomerService customers_;
+        private IOrderService orders_;
+        private IProductService products_;
 
-        public ProductServiceTest()
+        public ProductServiceTest(SmallCrmFixture fixture)
         {
-            context = new SmallCrmDbContext();
-            psvc_ = new ProductService(context);
+            context_ = fixture.DbContext;
+            customers_ = fixture.Container.Resolve<ICustomerService>();
+            products_ = fixture.Container.Resolve<IProductService>();
+            orders_ = fixture.Container.Resolve<IOrderService>();
         }
 
         [Fact]
@@ -29,9 +34,9 @@ namespace SmallCrmTest
                 Id = $"Test{CodeGenerator.CreateRandom()}"
             };
 
-            Assert.True(psvc_.AddProduct(product));
+            Assert.True(products_.AddProduct(product));
 
-            var retrivalProduct = psvc_.GetProductById(product.Id);
+            var retrivalProduct = products_.GetProductById(product.Id);
 
             Assert.NotNull(retrivalProduct);
             Assert.Equal(product.Price, retrivalProduct.Price);
@@ -40,16 +45,11 @@ namespace SmallCrmTest
         [Fact]
         public void GetProductById_Failure_Null_ProductId()
         {
-            var product = psvc_.GetProductById("  ");
+            var product = products_.GetProductById("  ");
             Assert.Null(product);
             
-            product = psvc_.GetProductById(null);
+            product = products_.GetProductById(null);
             Assert.Null(product);
-        }
-
-        public void Dispose()
-        {
-            context.Dispose();
         }
     }
 }

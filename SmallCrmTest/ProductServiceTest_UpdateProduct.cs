@@ -18,7 +18,7 @@ namespace SmallCrmTest
                 Id = $"Test{CodeGenerator.CreateRandom()}"
             };
 
-            Assert.True(psvc_.AddProduct(product));
+            Assert.True(products_.AddProduct(product));
 
             var updateproduct = new UpdateProductOptions()
             {
@@ -29,7 +29,7 @@ namespace SmallCrmTest
                 Price = 45M
             };
 
-            Assert.True(psvc_.UpdateProduct(product.Id, updateproduct));
+            Assert.True(products_.UpdateProduct(product.Id, updateproduct));
         }
     }
 }

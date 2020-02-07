@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
 using SmallCrm.Core;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
@@ -10,15 +11,19 @@ using Xunit;
 
 namespace SmallCrmTest
 {
-    public partial class CustomerServiceTest : IDisposable
+    public partial class CustomerServiceTest : IClassFixture<SmallCrmFixture>
     {
-        private readonly ICustomerService csvc_;
-        private readonly SmallCrmDbContext context;
+        private SmallCrmDbContext context_;
+        private ICustomerService customers_;
+        private IOrderService orders_;
+        private IProductService products_;
 
-        public CustomerServiceTest()
+        public CustomerServiceTest(SmallCrmFixture fixture)
         {
-            context = new SmallCrmDbContext();
-            csvc_ = new CustomerService(context);
+            context_ = fixture.DbContext;
+            customers_ = fixture.Container.Resolve<ICustomerService>();
+            products_ = fixture.Container.Resolve<IProductService>();
+            orders_ = fixture.Container.Resolve<IOrderService>();
         }
 
         [Fact]
@@ -33,11 +38,11 @@ namespace SmallCrmTest
                 VatNumber = $"{DateTime.UtcNow.Millisecond:D6}"
             };
 
-            var customer = csvc_.AddCustomer(cOptions);
+            var customer = customers_.AddCustomer(cOptions);
 
             Assert.NotNull(customer);
 
-            var scustomer = csvc_.SearchCustomer(
+            var scustomer = customers_.SearchCustomer(
                 new SearchCustomerOptions()
                 {
                     VatNumber = cOptions.VatNumber
@@ -52,7 +57,7 @@ namespace SmallCrmTest
         }
 
         [Fact]
-        public void Customer_Order_Success()
+        public Order Customer_Order_Success()
         {
             var p = new Product()
             {
@@ -62,7 +67,6 @@ namespace SmallCrmTest
                 Price = 123.44M
             };
 
-
             var p2 = new Product()
             {
                 Id = $"214{DateTime.Now.Millisecond}",
@@ -70,12 +74,12 @@ namespace SmallCrmTest
                 Name = "lalilulelo1",
                 Price = 133.44M
             };
-            context.Add(p2);
+            context_.Add(p2);
 
             var customer = new Customer()
             { 
-                VatNumber = "117003949",
-                Email = "asdasd@as.gr"
+                VatNumber = $"{CodeGenerator.CreateRandom()}",
+                Email = $"{CodeGenerator.CreateRandom()}"
             };
 
             var order = new Order()
@@ -91,23 +95,25 @@ namespace SmallCrmTest
             order.Products.Add(op);
             customer.Orders.Add(order);
 
-            context.Add(customer);
-            context.SaveChanges();
+            context_.Add(customer);
+            context_.SaveChanges();
+            return order;
         }
 
         [Fact]
         public void Order_remove()
         {
-            var order = context.Set<Order>().SingleOrDefault(o => o.Id == 2);
+            var order = Customer_Order_Success();
+            //var order = context_.Set<Order>().SingleOrDefault(o => o.Id == 2);
 
-            context.Remove(order);
-            context.SaveChanges();
+            context_.Remove(order);
+            context_.SaveChanges();
         }
 
         [Fact]
         public void Customer_Order_Retrieve()
         {
-            var customer = context
+            var customer = context_
                 .Set<Customer>()
                 .Include(c => c.Orders)
                 .ToList();
@@ -132,8 +138,8 @@ namespace SmallCrmTest
             };
             
             customer.Contacts.Add(contacts);
-            context.Add(customer);
-            context.SaveChanges();
+            context_.Add(customer);
+            context_.SaveChanges();
 
             return customer.Id; 
         }
@@ -142,17 +148,12 @@ namespace SmallCrmTest
         public void RetrieveContacts()
         {
             var customerId = AddCustomerContacts();
-            var contacts = context
+            var contacts = context_
                 .Set<Customer>()
                 .Include(c => c.Contacts)
                 .Where(c => c.Id == customerId)
                 .Select(c => c.Contacts)
                 .ToList();
-        }
-
-        public void Dispose()
-        {
-            context.Dispose();
         }
     }
 }

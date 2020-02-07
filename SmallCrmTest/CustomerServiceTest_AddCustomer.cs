@@ -17,7 +17,7 @@ namespace SmallCrmTest
                 VatNumber = $"{CodeGenerator.CreateRandom()}"
             };
 
-            Assert.NotNull(csvc_.AddCustomer(customer));
+            Assert.NotNull(customers_.AddCustomer(customer));
         }
     }
 }
