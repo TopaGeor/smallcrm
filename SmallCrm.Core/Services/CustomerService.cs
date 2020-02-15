@@ -30,7 +30,8 @@ namespace SmallCrm.Core.Services
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
-                string.IsNullOrWhiteSpace(options.VatNumber))
+                string.IsNullOrWhiteSpace(options.VatNumber)||
+                string.IsNullOrWhiteSpace(options.Country))
             {
                 return null;
             }
@@ -59,7 +60,8 @@ namespace SmallCrm.Core.Services
                 Lastname = options.LastName,
                 Phone = options.Phone,
                 Active = true,
-                Created = DateTime.UtcNow
+                Created = DateTime.UtcNow,
+                Country = options.Country
             };
 
             context_.Add(customer);

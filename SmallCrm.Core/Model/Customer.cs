@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ISO3166;
 
 namespace SmallCrm.Core.Model
 {
@@ -39,6 +40,11 @@ namespace SmallCrm.Core.Model
         /// Customer status
         /// </summary>
         public bool Active { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Country { get; set; }
 
         /// <summary>
         /// 

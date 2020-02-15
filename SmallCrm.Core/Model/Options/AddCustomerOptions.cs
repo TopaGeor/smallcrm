@@ -1,4 +1,6 @@
-﻿namespace SmallCrm.Core.Model.Options
+﻿using ISO3166;
+
+namespace SmallCrm.Core.Model.Options
 {
     public class AddCustomerOptions
     {
@@ -17,5 +19,7 @@
         public string LastName { get; set; }
 
         public string Phone { get; set; }
+
+        public string Country { get; set; }
     }
 }

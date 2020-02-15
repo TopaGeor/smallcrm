@@ -1,6 +1,6 @@
 ﻿@model SmallCrm.Web.Models.CreateCustomerViewModel
 
-<form method="post" action ="@Url.Action("create", "customer")">
+<form method="post" action="@Url.Action("create", "customer")">
 
     <div class="form-group">
         <label for="@Html.IdFor(c => c.CreateOptions.VatNumber)">Vat Number</label>
@@ -10,7 +10,20 @@
 
     <div class="form-group">
         <label for="@Html.IdFor(c => c.CreateOptions.Email)"> Email</label>
-        @Html.TextBoxFor(c => c.CreateOptions.Email, new { @class = "form-control"})
+        @Html.TextBoxFor(c => c.CreateOptions.Email, new { @class = "form-control" })
+    </div>
+
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    for="asd">
+                Select Country
+            </button>
+        
+        <div class="dropdown-menu">
+            @Html.ListBoxFor(c => c.CreateOptions.Country, new SelectList(Model.Countries, "TwoLetterCode", "Name"))
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -21,4 +34,13 @@
             @Model?.ErrorText
         </div>
     }
+
 </form>
+
+
+@*@{
+    foreach (var c in Model.Countries)
+    {
+        <a class="dropdown-item">@c.Name</a>
+    }
+}*@
