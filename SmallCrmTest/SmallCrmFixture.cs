@@ -1,9 +1,7 @@
-﻿using SmallCrm.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Autofac;
+﻿using Autofac;
 using SmallCrm.Core;
+using SmallCrm.Core.Data;
+using System;
 
 namespace SmallCrmTest
 {

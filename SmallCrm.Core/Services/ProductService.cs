@@ -134,6 +134,7 @@ namespace SmallCrm.Core.Services
             {
                 return false;
             }
+
             return true;
         }
 

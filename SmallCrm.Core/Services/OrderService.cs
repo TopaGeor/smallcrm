@@ -19,17 +19,17 @@ namespace SmallCrm.Core.Services
         }
 
         /// <summary>
-        /// A list with orders
-        /// </summary>
-        private List<Order> OrderList = new List<Order>();
-
-        /// <summary>
         /// Update an Order with options
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
         public bool UpdateOrder(UpdateOrderOptions options)
         {
+            if(options == null)
+            {
+                return false;
+            }
+
             Order order = GetOrderById(options.OrderId);
 
             if(order == null)
@@ -64,8 +64,9 @@ namespace SmallCrm.Core.Services
 
             try
             {
-                return OrderList.SingleOrDefault(
-                    s => s.Id.Equals(id));
+                return context_
+                    .Set<Order>()
+                    .SingleOrDefault(s => s.Id.Equals(id));     
             }
             catch
             {
@@ -80,7 +81,8 @@ namespace SmallCrm.Core.Services
                 return null;
             }
 
-            if (productIds == null)
+            if (productIds == null||
+                productIds.Count == 0)
             {
                 return null;
             }
@@ -125,6 +127,7 @@ namespace SmallCrm.Core.Services
             }
 
             context_.Add(order);
+
             try
             {
                 context_.SaveChanges();
@@ -133,6 +136,7 @@ namespace SmallCrm.Core.Services
             {
                 return null;
             }
+
             return order;
         }
     }

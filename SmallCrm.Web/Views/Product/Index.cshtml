@@ -1,0 +1,25 @@
+﻿@model SmallCrm.Web.Models.CustomersProductsViewModel
+    <asp-comp>
+
+    </asp-comp>
+    <ul>
+        @{
+            foreach (var c in Model.Customers)
+            {
+                <li>
+                    @c.VatNumber
+                </li>
+            }
+
+            @:-------------------
+
+            foreach (var p in Model.Products)
+            {
+                <li>
+                    @p.Id
+                </li>
+            }
+
+        }
+    </ul>
+
