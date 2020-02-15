@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using SmallCrm.Core;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
+using SmallCrm.Core.Services;
+using SmallCrm.Web.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SmallCrm.Web.Controllers
@@ -11,11 +15,13 @@ namespace SmallCrm.Web.Controllers
     {
         private IContainer Container { get; set; }
         private SmallCrmDbContext Context { get; set; }
+        private IProductService product_ { get; set; }
 
         public ProductController()
         {
             Container = ServiceRegistrator.GetContainer();
             Context = Container.Resolve<SmallCrmDbContext>();
+            product_ = Container.Resolve<IProductService>();
         }
 
         public IActionResult Index()
@@ -37,6 +43,25 @@ namespace SmallCrm.Web.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new CreateProductViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Create(Models.CreateProductViewModel model)
+        {
+            var result = product_.AddProduct(model?.CreateOptions);
+
+            if (!result)
+            {
+                model.ErrorText = "Oops Something went wrong";
+                return View(model);
+            }
+            return Ok();
         }
     }
 }

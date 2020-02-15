@@ -35,7 +35,8 @@ namespace SmallCrmTest
                 FirstName = "Fname",
                 LastName = "Lname",
                 Phone = "343549342",
-                VatNumber = $"{DateTime.UtcNow.Millisecond:D6}"
+                VatNumber = $"{DateTime.UtcNow.Millisecond:D6}",
+                Country = "BT"
             };
 
             var customer = customers_.AddCustomer(cOptions);

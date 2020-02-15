@@ -16,10 +16,9 @@
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle"
                     type="button"
-                    data-toggle="dropdown"
-                    for="asd">
-                Select Country
-            </button>
+                    data-toggle="dropdown">
+        Select Country
+        </button>
         
         <div class="dropdown-menu">
             @Html.ListBoxFor(c => c.CreateOptions.Country, new SelectList(Model.Countries, "TwoLetterCode", "Name"))

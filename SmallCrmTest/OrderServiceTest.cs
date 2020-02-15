@@ -53,7 +53,8 @@ namespace SmallCrmTest
                 .AddCustomer(new AddCustomerOptions()
                 {
                     Email = $"{CodeGenerator.CreateRandom()}@test.com",
-                    VatNumber = $"{CodeGenerator.CreateRandom()}"
+                    VatNumber = $"{CodeGenerator.CreateRandom()}",
+                    Country = "BT"
                 }
                 );
             Assert.NotNull(customer);

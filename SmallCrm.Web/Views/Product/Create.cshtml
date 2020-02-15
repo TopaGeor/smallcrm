@@ -1,0 +1,33 @@
+﻿@model SmallCrm.Web.Models.CreateProductViewModel
+
+    <form method="post" action="@Url.Action("create", "product")">
+        <div class="form-group">
+            <label for=@Html.IdFor(p => p.CreateOptions.Id)>Id</label>
+            @Html.TextBoxFor(p => p.CreateOptions.Id, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for=@Html.IdFor(p => p.CreateOptions.Name)>Name</label>
+            @Html.TextBoxFor(p => p.CreateOptions.Name, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for=@Html.IdFor(p => p.CreateOptions.Price)>Price</label>
+            @Html.TextBoxFor(p => p.CreateOptions.Price, new { @class = "form-control" })
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown">
+                Select Category
+            </button>
+
+            <div class="dropdown-menu">
+                @Html.ListBoxFor(c => c.CreateOptions.Category, new SelectList(Model.Categories))
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>

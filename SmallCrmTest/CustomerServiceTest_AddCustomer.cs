@@ -14,7 +14,8 @@ namespace SmallCrmTest
                 FirstName = "Test first name",
                 LastName = "Test last name",
                 Phone = "6969696969",
-                VatNumber = $"{CodeGenerator.CreateRandom()}"
+                VatNumber = $"{CodeGenerator.CreateRandom()}",
+                Country = "BT"
             };
 
             Assert.NotNull(customers_.AddCustomer(customer));
