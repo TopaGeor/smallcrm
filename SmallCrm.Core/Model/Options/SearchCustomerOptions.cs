@@ -7,26 +7,26 @@ namespace SmallCrm.Core.Model.Options
         /// <summary>
         /// From what date we should search
         /// </summary>
-        public DateTimeOffset FromDate;
+        public DateTimeOffset FromDate { get; set; }
 
         /// <summary>
         /// To what date we should search
         /// </summary>
-        public DateTimeOffset ToDate;
+        public DateTimeOffset ToDate { get; set; }
 
         /// <summary>
         /// What Vat number we are looking for
         /// </summary>
-        public string VatNumber;
+        public string VatNumber { get; set; }
 
         /// <summary>
         /// What email we are looking for
         /// </summary>
-        public string Email;
-        
+        public string Email { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
-        public int? Id;
+        public int? Id { get; set; }
     }
 }

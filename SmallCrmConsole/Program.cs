@@ -4,6 +4,9 @@ using ISO3166;
 using System;
 using SmallCrm.Core.Model;
 using System.Collections.Generic;
+using SmallCrm.Core;
+using Autofac;
+using System.Linq;
 
 namespace SmallCrmConsole
 {
@@ -12,18 +15,18 @@ namespace SmallCrmConsole
         static void Main(string[] args)
         {
             var ps = new ProductService(new SmallCrmDbContext());
-            int[] a = new int[] { 1, 2, 3 };
-            //List<Core.Model.ProductCategory> Categories { get; set; }
-            List<Object> test = new List<Object>();
-            foreach (var i in Enum.GetValues(typeof(ProductCategory)))
+            var cs = new CustomerService(new SmallCrmDbContext());
+            var options = new SmallCrm.Core.Model.Options.SearchCustomerOptions()
+            { 
+                Email = "customer@mail.com"
+            };
+
+            var t = cs.SearchCustomer(options).ToList();
+            foreach(var x in typeof(Customer).GetProperties())
             {
-                Console.WriteLine(i);
-                test.Add(i);
+                //Console.WriteLine(x.Name);
             }
-            //object[] test = new object[1];
-            //List<Object> test = new List<Object>();
-            //Console.WriteLine(x);
-            //ps.PopulateDb();
+
         }
     }
 }

@@ -52,7 +52,7 @@ namespace SmallCrm.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Models.CreateProductViewModel model)
+        public IActionResult Create(CreateProductViewModel model)
         {
             var result = product_.AddProduct(model?.CreateOptions);
 

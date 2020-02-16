@@ -1,0 +1,71 @@
+﻿@model SmallCrm.Web.Models.SearchCustomerViewModel
+
+    <form method="post" action="@Url.Action("CustomerSearch", "Search")">
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.SearchOptions.VatNumber)">VatNumber</label>
+            @Html.TextBoxFor(c => c.SearchOptions.VatNumber, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.SearchOptions.Email)">Email</label>
+            @Html.TextBoxFor(c => c.SearchOptions.Email, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.SearchOptions.Id)">Id</label>
+            @Html.TextBoxFor(c => c.SearchOptions.Id, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.SearchOptions.FromDate)">From date</label>
+            @Html.TextBoxFor(c => c.SearchOptions.FromDate, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.SearchOptions.ToDate)">To date</label>
+            @Html.TextBoxFor(c => c.SearchOptions.ToDate, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        @if (!string.IsNullOrWhiteSpace(Model?.ErrorText))
+         {
+            <div class=" alert alert-danger" role="alert">
+                @Model?.ErrorText
+            </div>
+         }
+
+        @if (Model.Results.Count > 0)
+         {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        @foreach (var t in typeof(SmallCrm.Core.Model.Customer).GetProperties())
+                        {
+                            <th scope="col">@t.Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var v in Model.Results)
+                    {
+                        <tr>
+                            <th scope="row">@v.Id</th>
+                            <td>@v.Phone</td>
+                            <td>@v.Email</td>
+                            <td>@v.Lastname</td>
+                            <td>@v.Firstname</td>
+                            <td>@v.VatNumber</td>
+                            <td>@v.Active</td>
+                            <td>@v.Country</td>
+                            <td>@v.Contacts</td>
+                            <td>@v.Created</td>
+                            <td>@v.Orders</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+         }
+
+    </form>
