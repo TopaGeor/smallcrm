@@ -19,7 +19,7 @@
                     data-toggle="dropdown">
         Select Country
         </button>
-        
+
         <div class="dropdown-menu">
             @Html.ListBoxFor(c => c.CreateOptions.Country, new SelectList(Model.Countries, "TwoLetterCode", "Name"))
         </div>

@@ -12,7 +12,7 @@ namespace SmallCrmTest
 
         public SmallCrmFixture()
         {
-            Container = ServiceRegistrator.GetContainer().BeginLifetimeScope();
+            Container = ServiceRegistrator.CreateContainer().BeginLifetimeScope();
             DbContext = Container.Resolve<SmallCrmDbContext>();
         }
 

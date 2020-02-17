@@ -1,6 +1,7 @@
 ﻿using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Core.Services
 {
@@ -14,14 +15,14 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        Customer AddCustomer(AddCustomerOptions options);
+        Task<ApiResult<Customer>> AddCustomer(AddCustomerOptions options);
 
         /// <summary>
         /// A function that will allow for a Customer's data to be updated selectively.
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        bool UpdateCustomer(UpdateCustomerOptions options);
+        Task<bool> UpdateCustomer(UpdateCustomerOptions options);
 
         /// <summary>
         ///  A function that will return a list of active customers, filtered with a number of criteria such as DateCreated, VatNumber and email.

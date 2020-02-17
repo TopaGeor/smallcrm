@@ -1,5 +1,6 @@
 ﻿using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Core.Services
 {
@@ -12,7 +13,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public Order CreateOrder(int customerId, ICollection<string> productIds);
+        Task<ApiResult<Order>> CreateOrder(int customerId, ICollection<string> productIds);
 
         /// <summary>
         /// a function that will update a not-executed order, and will allow sales-people to cancel it, if the customer changed his mind 

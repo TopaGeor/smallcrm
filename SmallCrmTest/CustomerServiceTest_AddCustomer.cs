@@ -1,4 +1,5 @@
 ﻿using SmallCrm.Core.Model.Options;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SmallCrmTest
@@ -6,7 +7,7 @@ namespace SmallCrmTest
     public partial class CustomerServiceTest
     {
         [Fact]
-        public void AddCustomer_Success()
+        public async Task AddCustomer_Success()
         {
             var customer = new AddCustomerOptions()
             { 
@@ -18,7 +19,7 @@ namespace SmallCrmTest
                 Country = "BT"
             };
 
-            Assert.NotNull(customers_.AddCustomer(customer));
+            Assert.NotNull(await customers_.AddCustomer(customer));
         }
     }
 }

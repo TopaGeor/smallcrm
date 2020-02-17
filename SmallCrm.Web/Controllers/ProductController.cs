@@ -13,25 +13,23 @@ namespace SmallCrm.Web.Controllers
 {
     public class ProductController : Controller
     {
-        private IContainer Container { get; set; }
-        private SmallCrmDbContext Context { get; set; }
+        private SmallCrmDbContext context_ { get; set; }
         private IProductService product_ { get; set; }
 
-        public ProductController()
+        public ProductController(SmallCrmDbContext context, IProductService product)
         {
-            Container = ServiceRegistrator.GetContainer();
-            Context = Container.Resolve<SmallCrmDbContext>();
-            product_ = Container.Resolve<IProductService>();
+            context_ = context;
+            product_ = product;
         }
 
         public IActionResult Index()
         {
-            var productList = Context
+            var productList = context_
                 .Set<Product>()
                 .Take(100)
                 .ToList();
 
-            var customerList = Context
+            var customerList = context_
                 .Set<Customer>()
                 .Take(100)
                 .ToList();

@@ -6,41 +6,40 @@ using SmallCrm.Core.Model;
 using SmallCrm.Core.Services;
 using SmallCrm.Core.Model.Options;
 using System.Linq;
-
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Web.Controllers
 {
     public class CustomerController : Controller
     {
-        private IContainer Container { get; set; }
-        private SmallCrmDbContext Context { get; set; }
+        private SmallCrmDbContext context_;
 
         private ICustomerService customers_;
 
-        public CustomerController()
+        public CustomerController(SmallCrmDbContext context, ICustomerService customers)
         {
-            Container = ServiceRegistrator.GetContainer();
-            Context = Container.Resolve<SmallCrmDbContext>();
-            customers_ = Container.Resolve<ICustomerService>();
+            context_ = context;
+            customers_ = customers;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var customerList = Context
+            var customerList = await context_
                 .Set<Customer>()
                 .Take(100)
-                .ToList();
+                .ToListAsync();
 
             return View(customerList);
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var customerList = Context
+            var customerList = await context_
                 .Set<Customer>()
                 .Select(c => new { c.Email, c.VatNumber })
                 .Take(100)
-                .ToList();
+                .ToListAsync();
 
             return Json(customerList);
         }
@@ -52,9 +51,9 @@ namespace SmallCrm.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Models.CreateCustomerViewModel model)
+        public async Task<IActionResult> Create(Models.CreateCustomerViewModel model)
         {
-            var result = customers_.AddCustomer(model?.CreateOptions);
+            var result = await customers_.AddCustomer(model?.CreateOptions);
             
             if(result == null)
             {

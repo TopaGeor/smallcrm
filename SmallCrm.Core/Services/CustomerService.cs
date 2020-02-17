@@ -1,9 +1,11 @@
-﻿using SmallCrm.Core.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Core.Services
 {
@@ -22,34 +24,37 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public Customer AddCustomer(AddCustomerOptions options)
+        public async Task<ApiResult<Customer>> AddCustomer(AddCustomerOptions options)
         {
             if (options == null)
             {
-                return null;
+                return new ApiResult<Customer>(StatusCode.NotFound, $"Null {options}");
             }
 
             if (string.IsNullOrWhiteSpace(options.Email) ||
                 string.IsNullOrWhiteSpace(options.VatNumber)||
                 string.IsNullOrWhiteSpace(options.Country))
             {
-                return null;
+                return new ApiResult<Customer>(StatusCode.BadRequest, 
+                    $"Null one of these {options.Email} {options.VatNumber} {options.Country}");
             }
 
             if (options.VatNumber.Length > 9)
             {
-                return null;
+                return new ApiResult<Customer>(StatusCode.NotFound,
+                    $"Vat number lenght longer than 9 {options.VatNumber}");
             }
 
-            var exists = SearchCustomer(
+            var exists = await SearchCustomer(
                 new SearchCustomerOptions()
                 {
                     VatNumber = options.VatNumber
-                }).Any();
+                }).AnyAsync();
 
             if (exists)
             {
-                return null;
+                return new ApiResult<Customer>(StatusCode.NotFound,
+                    $"Vat number exists {options.VatNumber}");
             }
 
             Customer customer = new Customer
@@ -64,17 +69,22 @@ namespace SmallCrm.Core.Services
                 Country = options.Country
             };
 
-            context_.Add(customer);
+            await context_.AddAsync(customer);
             try
             {    
-                context_.SaveChanges();
+                await context_.SaveChangesAsync();
             }
             catch
             {
-                return null;
+                return new ApiResult<Customer>(StatusCode.NotFound,
+                    "Failed on saving changes");
             }
 
-            return customer;
+            return new ApiResult<Customer>()
+            {
+                ErrorCode = StatusCode.ok,
+                Data = customer
+            };
         }
 
         /// <summary>
@@ -82,9 +92,9 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool UpdateCustomer(UpdateCustomerOptions options)
+        public async Task<bool> UpdateCustomer(UpdateCustomerOptions options)
         {
-            var customer = GetCustomerById(options.Id);
+            var customer = await GetCustomerById(options.Id);
 
             if (customer == null)
             {
@@ -166,7 +176,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Customer GetCustomerById(int? id)
+        public async Task<Customer> GetCustomerById(int? id)
         {
             if(id == null)
             {
@@ -178,8 +188,8 @@ namespace SmallCrm.Core.Services
                 Id = id
             };
 
-            return SearchCustomer(options)
-                .SingleOrDefault();
+            return await SearchCustomer(options)
+                .SingleOrDefaultAsync();
         }
     }
 }

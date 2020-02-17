@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmallCrm.Core.Services
 {
@@ -74,41 +76,46 @@ namespace SmallCrm.Core.Services
             }
         }
 
-        public Order CreateOrder(int customerId, ICollection<string> productIds)
+        public async Task<ApiResult<Order>> CreateOrder(int customerId, ICollection<string> productIds)
         {
             if( customerId <= 0)
             {
-                return null;
+                return new ApiResult<Order>(
+                    StatusCode.BadRequest,
+                    $"Error with customer Id {customerId}");
             }
 
             if (productIds == null||
                 productIds.Count == 0)
             {
-                return null;
+                return new ApiResult<Order>(
+                    StatusCode.BadRequest, 
+                    "Error with the ids of products");
             }
 
-            var customer = customers_.SearchCustomer(
+            var customer = await customers_.SearchCustomer(
                 new SearchCustomerOptions()
                 {
                     Id = customerId
                 })
                 .Where(c => c.Active)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
 
             if (customer == null ||
                 productIds.Count == 0)
             {
-                return null;
+                return new ApiResult<Order>(StatusCode.BadRequest, "No customer found");
             }
 
-            var products = context_
+            var products = await context_
                 .Set<Product>()
                 .Where(p => productIds.Contains(p.Id))
-                .ToList();
+                .ToListAsync();
 
             if (products.Count != productIds.Count)
             {
-                return null;
+                return new ApiResult<Order>(StatusCode.BadRequest, 
+                    "Error on something");
             }
 
             var order = new Order()
@@ -126,18 +133,21 @@ namespace SmallCrm.Core.Services
                 );
             }
 
-            context_.Add(order);
+            await context_.AddAsync(order);
 
             try
             {
-                context_.SaveChanges();
+                await context_.SaveChangesAsync();
             }
             catch (Exception)
             {
-                return null;
+                return new ApiResult<Order>(StatusCode.BadRequest, "Another error");
             }
 
-            return order;
+            return new ApiResult<Order> 
+            {
+                Data = order
+            };
         }
     }
 }

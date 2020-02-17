@@ -7,11 +7,15 @@ using SmallCrm.Core.Services;
 
 namespace SmallCrm.Core
 {
-    public class ServiceRegistrator
+    public class ServiceRegistrator : Autofac.Module
     {
-        public static IContainer GetContainer()
+        public static void RegisterServices(ContainerBuilder builder)
         {
-            var builder = new ContainerBuilder();
+
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             builder
                 .RegisterType<ProductService>()
@@ -32,8 +36,20 @@ namespace SmallCrm.Core
                 .RegisterType<SmallCrmDbContext>()
                 .InstancePerLifetimeScope()
                 .AsSelf();
+        }
 
-            return builder.Build();
+        public static IContainer CreateContainer()
+        {
+            var builder = new ContainerBuilder();
+            RegisterServices(builder);
+            return builder.Build();   
+        }
+
+
+        protected override void Load(ContainerBuilder builder)
+        {
+            RegisterServices(builder);
+            base.Load(builder);
         }
     }
 }

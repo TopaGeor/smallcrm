@@ -14,18 +14,17 @@ namespace SmallCrm.Web.Controllers
 {
     public class SearchController : Controller
     {
-        private IContainer Container { get; set; }
-        private SmallCrmDbContext Context { get; set; }
+        private SmallCrmDbContext context_ { get; set; }
+
         private ICustomerService customer_ { get; set; }
 
         private IProductService product_ { get; set; }
 
-        public SearchController()
+        public SearchController(SmallCrmDbContext context, ICustomerService customer, IProductService product)
         {
-            Container = ServiceRegistrator.GetContainer();
-            Context = Container.Resolve<SmallCrmDbContext>();
-            customer_ = Container.Resolve<ICustomerService>();
-            product_ = Container.Resolve<IProductService>();
+            context_ = context;
+            customer_ = customer;
+            product_ = product;
         }
 
         public IActionResult Index()

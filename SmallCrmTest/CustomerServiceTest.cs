@@ -7,6 +7,7 @@ using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SmallCrmTest
@@ -27,7 +28,7 @@ namespace SmallCrmTest
         }
 
         [Fact]
-        public void CreateCustomer_Succsess()
+        public async Task CreateCustomer_Succsess()
         {
             var cOptions = new AddCustomerOptions()
             {
@@ -39,7 +40,7 @@ namespace SmallCrmTest
                 Country = "BT"
             };
 
-            var customer = customers_.AddCustomer(cOptions);
+            var customer = await customers_.AddCustomer(cOptions);
 
             Assert.NotNull(customer);
 
@@ -155,6 +156,22 @@ namespace SmallCrmTest
                 .Where(c => c.Id == customerId)
                 .Select(c => c.Contacts)
                 .ToList();
+        }
+
+        [Fact]
+        public async Task CreateCustomer_Fail_VatNumber()
+        {
+            var options = new AddCustomerOptions()
+            { 
+                Email ="test@mail.com",
+                FirstName = "Fname",
+                LastName = "Lname",
+                Phone = "2131231"
+            };
+
+            var result = await customers_.AddCustomer(options);
+
+            Assert.Equal(StatusCode.BadRequest, result.ErrorCode);
         }
     }
 }

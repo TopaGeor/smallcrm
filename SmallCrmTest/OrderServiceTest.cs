@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace SmallCrmTest 
@@ -29,7 +30,7 @@ namespace SmallCrmTest
         }
 
         [Fact]
-        public void CreateOrder_Success()
+        public async Task CreateOrder_Success()
         {
             var p0 = new AddProductOptions()
             {
@@ -49,7 +50,7 @@ namespace SmallCrmTest
             Assert.True(products_.AddProduct(p0));
             Assert.True(products_.AddProduct(p1));
 
-            var customer = customers_
+            var customer = await customers_
                 .AddCustomer(new AddCustomerOptions()
                 {
                     Email = $"{CodeGenerator.CreateRandom()}@test.com",
@@ -62,14 +63,14 @@ namespace SmallCrmTest
             var productIds = new List<string> { p0.Id, p1.Id };
 
             var order = orders_.CreateOrder(
-                customer.Id, productIds);
+                customer.Data.Id, productIds);
             
             Assert.NotNull(order);
 
             var dbOrder = context_.Set<Order>().Find(order.Id);
             Assert.NotNull(dbOrder);
 
-            Assert.True(customer.Id == dbOrder.Customer.Id);
+            Assert.True(customer.Data.Id == dbOrder.Customer.Id);
 
             foreach(var p in productIds)
             {

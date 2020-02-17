@@ -44,7 +44,6 @@ namespace SmallCrm.Core.Data
                 .HasIndex(c => c.VatNumber)
                 .IsUnique();
 
-
             modelBuilder.
                 Entity<Order>().
                 ToTable("Order");
