@@ -1,0 +1,78 @@
+﻿@model SmallCrm.Web.Models.SearchProductViewModel
+
+    <form method="post" action="@Url.Action("ProductSearch", "Search")">
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.Options.Id)">Id</label>
+            @Html.TextBoxFor(c => c.Options.Id, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.Options.Name)">Name</label>
+            @Html.TextBoxFor(c => c.Options.Name, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.Options.Price)">Price</label>
+            @Html.TextBoxFor(c => c.Options.Price, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.Options.Discount)">Discount</label>
+            @Html.TextBoxFor(c => c.Options.Discount, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="@Html.IdFor(c => c.Options.Description)">Description</label>
+            @Html.TextBoxFor(c => c.Options.Description, new { @class = "form-control" })
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown">
+                Select Category
+            </button>
+
+            <div class="dropdown-menu">
+                @Html.ListBoxFor(c => c.Options.Category, new SelectList(Model.Categories))
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        @if (!string.IsNullOrWhiteSpace(Model?.ErrorText))
+         {
+            <div class=" alert alert-danger" role="alert">
+                @Model?.ErrorText
+            </div>
+         }
+
+        @if (Model.Products.Count > 0)
+         {
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        @foreach (var t in typeof(SmallCrm.Core.Model.Product).GetProperties())
+                        {
+                            <th scope="col">@t.Name</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var v in Model.Products)
+                    {
+                        <tr>
+                            <th scope="row">@v.Id</th>
+                            <td>@v.Name</td>
+                            <td>@v.Price</td>
+                            <td>@v.Discount</td>
+                            <td>@v.Description</td>
+                            <td>@v.Category</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+         }
+
+    </form>

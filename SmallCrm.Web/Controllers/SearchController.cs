@@ -18,11 +18,14 @@ namespace SmallCrm.Web.Controllers
         private SmallCrmDbContext Context { get; set; }
         private ICustomerService customer_ { get; set; }
 
+        private IProductService product_ { get; set; }
+
         public SearchController()
         {
             Container = ServiceRegistrator.GetContainer();
             Context = Container.Resolve<SmallCrmDbContext>();
             customer_ = Container.Resolve<ICustomerService>();
+            product_ = Container.Resolve<IProductService>();
         }
 
         public IActionResult Index()
@@ -51,6 +54,25 @@ namespace SmallCrm.Web.Controllers
                 model.Results = result.ToList();
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public IActionResult ProductSearch()
+        {
+            return View(new SearchProductViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult ProductSearch(SearchProductViewModel model)
+        {
+            model.Products = product_.SearchProduct(model?.Options);
+            
+            if (model.Products.Count < 1)
+            {
+                model.ErrorText = "Oops Something went wrong";
+                return View(model);
+            }
+            return View(model);   
         }
     }
 }
