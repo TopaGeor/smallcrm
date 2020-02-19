@@ -1,6 +1,7 @@
 ﻿using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Core.Services
 {
@@ -11,7 +12,7 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        bool AddProduct(AddProductOptions options);
+        Task<bool> AddProductAsync(AddProductOptions options);
 
         /// <summary>
         /// Update the product with id productId according to options
@@ -19,14 +20,15 @@ namespace SmallCrm.Core.Services
         /// <param name="productId"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        bool UpdateProduct(string productId, UpdateProductOptions options);
+        Task<ApiResult<Product>> UpdateProductAsync(string productId,
+            UpdateProductOptions options);
 
         /// <summary>
         /// Return the product with Id id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Product GetProductById(string id);
+        Task<ApiResult<Product>> GetProductByIdAsync(string id);
 
         /// <summary>
         /// 

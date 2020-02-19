@@ -1,10 +1,12 @@
-﻿using SmallCrm.Core.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
 using SmallCrm.Core.Model.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Core.Services
 {
@@ -27,16 +29,16 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool AddProduct(AddProductOptions options)
+        public async Task<bool> AddProductAsync(AddProductOptions options)
         {
             if (options == null)
             {
                 return false;
             }
 
-            var check = GetProductById(options.Id);
+            var product = await GetProductByIdAsync(options.Id);
 
-            if (check != null)
+            if (product != null)
             {
                 return false;
             }
@@ -51,91 +53,92 @@ namespace SmallCrm.Core.Services
                 return false;
             }
 
-            if (options.Category == Model.ProductCategory.Invalid)
+            if (options.Category ==
+              ProductCategory.Invalid)
             {
                 return false;
             }
 
-            var product = new Product()
+            product.Data = new Product()
             {
                 Id = options.Id,
                 Name = options.Name,
                 Price = options.Price,
                 Category = options.Category
             };
+
             context_.Add(product);
+
             var success = false;
-            
+
             try
             {
                 success = context_.SaveChanges() > 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
+                // log
             }
+
             return success;
         }
-        
+
+
         /// <summary>
         /// Find the product with id productId and updates it with the options
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool UpdateProduct(string productId, UpdateProductOptions options)
+        public async Task<ApiResult<Product>> UpdateProductAsync(string productId,
+            UpdateProductOptions options)
         {
             if (options == null)
             {
-                return false;
+                return new ApiResult<Product>(StatusCode.BadRequest,
+                    "Error");
             }
 
-            var product = GetProductById(productId);
-
+            var product = await GetProductByIdAsync(productId);
             if (product == null)
             {
-                return false;
+                return new ApiResult<Product>(StatusCode.BadRequest,
+                    "Error");
             }
 
             if (!string.IsNullOrWhiteSpace(options.Description))
             {
-                product.Description = options.Description;
+                product.Data.Description = options.Description;
             }
 
-            if (!string.IsNullOrWhiteSpace(options.Name))
+            if (options.Price != null &&
+              options.Price <= 0)
             {
-                product.Name = options.Name;
+                return new ApiResult<Product>(StatusCode.BadRequest,
+                    "Error");
             }
 
             if (options.Price != null)
             {
                 if (options.Price <= 0)
                 {
-                    return false;
+                    return new ApiResult<Product>(StatusCode.BadRequest,
+                    "Error");
                 }
                 else
                 {
-                    product.Price = options.Price;
+                    product.Data.Price = options.Price.Value;
                 }
             }
 
-            if (options.Discount != null)
+            if (options.Discount != null &&
+              options.Discount < 0)
             {
-                if (options.Discount > 0M && options.Discount <= 100M)
-                {
-                   product.Discount = options.Discount;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
+                return new ApiResult<Product>(StatusCode.BadRequest,
+                    "Error");
             }
 
-            return true;
+            return ApiResult<Product>.CreateSucces(product.Data);
         }
 
         /// <summary>
@@ -143,28 +146,26 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Product GetProductById(string id)
+        public async Task<ApiResult<Product>> GetProductByIdAsync(
+            string id)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                return null;
+                return new ApiResult<Product>(
+                    StatusCode.BadRequest, "null id");
             }
 
-            SearchProductOptions options = new SearchProductOptions()
-            {
-                Id = id
-            };
+            var product = await context_
+                .Set<Product>()
+                .SingleOrDefaultAsync(s => s.Id == id);
 
-            List<Product> product = SearchProduct(options);
+            if (product == null)
+            {
+                return new ApiResult<Product>(
+                    StatusCode.NotFound, "product not found ");
+            }
 
-            if (product.Count < 1)
-            {
-                return null;
-            }
-            else
-            {
-                return product[0];
-            }
+            return ApiResult<Product>.CreateSucces(product);
         }
 
         public List<Product> SearchProduct(SearchProductOptions options)

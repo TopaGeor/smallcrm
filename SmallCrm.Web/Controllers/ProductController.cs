@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using SmallCrm.Core;
 using SmallCrm.Core.Data;
 using SmallCrm.Core.Model;
+using SmallCrm.Core.Model.Options;
 using SmallCrm.Core.Services;
+using SmallCrm.Web.Extensions;
 using SmallCrm.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmallCrm.Web.Controllers
 {
@@ -50,9 +53,9 @@ namespace SmallCrm.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateProductViewModel model)
+        public async Task<IActionResult> Create(CreateProductViewModel model)
         {
-            var result = product_.AddProduct(model?.CreateOptions);
+            var result = await product_.AddProductAsync(model?.CreateOptions);
 
             if (!result)
             {
@@ -61,5 +64,28 @@ namespace SmallCrm.Web.Controllers
             }
             return Ok();
         }
+
+        [HttpGet("product/{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var result = await product_.GetProductByIdAsync(id);
+            return result.AsStatusResult();
+        }
+
+        [HttpPut("product/{id}")]
+        public async Task<IActionResult> Update(string id, [FromBody]UpdateProductOptions options)
+        {
+            var result = await product_.UpdateProductAsync(id, options);
+            return result.AsStatusResult();
+        }
+        //public async Task<IActionResult> CreateFromPostman([FromBody] AddProductOptions options)
+        //{
+        //    var result = await product_.AddProductAsync(options);
+
+
+        //    return result.AsStatusResult;
+        //}
+
+
     }
 }

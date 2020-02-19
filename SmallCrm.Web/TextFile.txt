@@ -1,0 +1,27 @@
+﻿function validationVatnumber()
+{
+	var expresion = /([0-9])\d{8,8}/
+  var test = document.getElementById("CreateOptions_VatNumber").value
+  if (expresion.test(test) && (test.length === 9))
+  {
+  	alert("it works")
+	}
+  else
+  {
+  	alert("maybe not")
+	}
+}
+
+document.getElementById("CreateOptions_VatNumber").value = "123346734"
+validationVatnumber();
+
+document.getElementById("CreateOptions_VatNumber").value = "         "
+validationVatnumber();
+
+
+document.getElementById("CreateOptions_VatNumber").value = "1233467324"
+validationVatnumber();
+
+sto jquery prepei na exeis ena dolario apo mprosta
+
+https://jsfiddle.net/sf5d6ohc/7/

@@ -28,6 +28,6 @@ namespace SmallCrm.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Order GetOrderById(string id);
+        Task<Order> GetOrderById(string id);
     }
 }

@@ -80,11 +80,7 @@ namespace SmallCrm.Core.Services
                     "Failed on saving changes");
             }
 
-            return new ApiResult<Customer>()
-            {
-                ErrorCode = StatusCode.ok,
-                Data = customer
-            };
+            return ApiResult<Customer>.CreateSucces(customer);
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using SmallCrm.Core.Model.Options;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using SmallCrm.Web.Extensions;
 
 namespace SmallCrm.Web.Controllers
 {
@@ -62,6 +63,15 @@ namespace SmallCrm.Web.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFromPostman(
+            [FromBody] AddCustomerOptions options)
+        {
+            var result = await customers_.AddCustomer(options);
+
+            return result.AsStatusResult();
         }
     }
 }
