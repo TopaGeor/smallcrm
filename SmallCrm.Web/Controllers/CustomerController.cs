@@ -24,14 +24,14 @@ namespace SmallCrm.Web.Controllers
             customers_ = customers;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var customerList = await context_
-                .Set<Customer>()
-                .Take(100)
-                .ToListAsync();
+            //var customerList = await context_
+            //    .Set<Customer>()
+            //    .Take(100)
+            //    .ToListAsync();
 
-            return View(customerList);
+            return View();
         }
 
         public async Task<IActionResult> List()

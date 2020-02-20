@@ -1,36 +1,77 @@
 ﻿@model SmallCrm.Web.Models.CreateCustomerViewModel
 
-<form method="post" action="@Url.Action("create", "customer")">
+    <form method="post" action="@Url.Action("create", "customer")">
 
-    <div class="form-group">
-        <label for="@Html.IdFor(c => c.CreateOptions.VatNumber)">Vat Number</label>
-        @Html.TextBoxFor(c => c.CreateOptions.VatNumber, new { @class = "form-control" })
-        <small id="emailHelp" class="form-text text-muted">Vat number should be 9 digits.</small>
-    </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="@Html.IdFor(c => c.CreateOptions.VatNumber)">VatNumber</label>
+                <input type="text" class="form-control js-VatNumber is-invalid" id="VatNumber">
+                <div class="invalid-feedback">
+                    Not valid VatNumber.
+                </div>
+            </div>
+        </div>
 
-    <div class="form-group">
-        <label for="@Html.IdFor(c => c.CreateOptions.Email)"> Email</label>
-        @Html.TextBoxFor(c => c.CreateOptions.Email, new { @class = "form-control" })
-    </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3 ">
+                <label for="@Html.IdFor(c => c.CreateOptions.Email)">Email</label>
+                <input type="text" class="form-control js-Email is-invalid" id="Email">
+                <div class="invalid-feedback">
+                    Not Valid email.
+                </div>
+            </div>
+        </div>
+        ???itemid???
 
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle"
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="@Html.IdFor(c => c.CreateOptions.FirstName)">First Name</label>
+                <input type="text" class="form-control" id="FName">
+                <div class="invalid-feedback">
+                    Not Valid Name
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="LName">Last Name</label>
+                <input type="text" class="form-control" id="LName">
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="Phone">Phone</label>
+                <input type="text" class="form-control" id="Phone">
+                <div class="invalid-feedback">
+                    Please provide a valid phone.
+                </div>
+            </div>
+        </div>
+
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle"
                     type="button"
                     data-toggle="dropdown">
-        Select Country
-        </button>
+                Select Country
+            </button>
 
-        <div class="dropdown-menu">
-            @Html.ListBoxFor(c => c.CreateOptions.Country, new SelectList(Model.Countries, "TwoLetterCode", "Name"))
+            <div class="dropdown-menu">
+                @Html.ListBoxFor(c => c.CreateOptions.Country, new SelectList(Model.Countries, "TwoLetterCode", "Name"))
+            </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
 
-    @if (!string.IsNullOrWhiteSpace(Model?.ErrorText))
-    {
-        <div class=" alert alert-danger" role="alert">
-            @Model?.ErrorText
-        </div>
-    }
-</form>
+        @if (!string.IsNullOrWhiteSpace(Model?.ErrorText))
+        {
+            <div class=" alert alert-danger" role="alert">
+                @Model?.ErrorText
+            </div>
+        }
+    </form>
